@@ -1,15 +1,58 @@
 
 #include "ft_ls.h"
 
+int		ft_contains(char *s, char ch)
+{
+	while (*s)
+	{
+		if (*s == ch)
+			return (1);
+		s++;
+	}
+	return (0);
+}
+
+void	parse_flags(char *s)
+{
+	int i;
+
+	if (!s[1])
+		exit(0);
+	i = 0;
+	while (s[++i])
+	{
+		if (!ft_contains(OPTS, s[i]))
+			exit(0);
+	}
+}
+
+void	parse(int ac, char *av[])
+{
+	int i;
+
+	i = 0;
+	while (++i < ac && av[i][0] == '-')
+		parse_flags(av[i]);
+}
+
 int main(int ac, char *av[])
 {
 	DIR				*d;
 	struct dirent	*dp;
+	struct stat		st;
 
+	parse(ac, av);
 	d = opendir(".");
 	while ((dp = readdir(d)))
 	{
-		ft_printf("%s\n", dp->d_name);
+		if (dp->d_name[0] != '.')
+		{
+			if (stat(dp->d_name, &st) == -1)
+				exit(1);
+			ft_printf("%s %d\n", dp->d_name, st.st_nlink);
+		}
+		else
+			ft_printf("%s\n", dp->d_name);
 	}
 	closedir(d);
 	return (0);
