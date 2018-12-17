@@ -1,17 +1,6 @@
 
 #include "ft_ls.h"
 
-int		ft_contains(char *s, char ch)
-{
-	while (*s)
-	{
-		if (*s == ch)
-			return (1);
-		s++;
-	}
-	return (0);
-}
-
 void	parse_flags(char *s)
 {
 	int i;
