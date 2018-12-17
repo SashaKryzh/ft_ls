@@ -3,6 +3,7 @@
 # define FT_LS_H
 
 # include "libft.h"
+
 # include <dirent.h>
 # include <sys/stat.h>
 
@@ -10,7 +11,11 @@
 
 typedef struct		s_flags
 {
-	int	R;
+	int one;
+	int	rec;
+	int	a;
+	int rev;
+	int t;
 }					t_flags;
 
 #endif
