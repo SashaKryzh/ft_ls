@@ -4,7 +4,9 @@ NAME = ft_ls
 FLAGS = -Wall -Werror -Wextra
 CC = gcc
 
-SRCS = main.c
+SRCS = main.c \
+parser.c \
+tests.c
 
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))
