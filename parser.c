@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-int		parse_flags(t_flags *flags, char *s)
+int		parse_flags(char *s)
 {
 	int i;
 
@@ -24,15 +24,15 @@ int		parse_flags(t_flags *flags, char *s)
 		if (!ft_contains(OPTS, s[i]))
 			exit_func("Invalid option");
 		if (s[i] == 'R')
-			flags->rec = 1;
+			g_flags.rec = 1;
 		if (s[i] == 'a')
-			flags->a = 1;
+			g_flags.a = 1;
 		if (s[i] == 'r')
-			flags->rev = 1;
+			g_flags.rev = 1;
 		if (s[i] == 't')
-			flags->t = 1;
+			g_flags.t = 1;
 		if (s[i] == '1')
-			flags->one = 1;
+			g_flags.one = 1;
 	}
 	return (1);
 }
@@ -48,18 +48,17 @@ void	parse_names(t_names **names, char *s)
 	*names = new;
 }
 
-void	get_args(int ac, char *av[], t_flags *flags, t_names **names)
+void	get_args(int ac, char *av[], t_names **names)
 {
 	int		i;
 
 	i = 0;
 	*names = NULL;
-	ft_bzero(flags, sizeof(t_flags));
 	while (++i < ac && av[i][0] == '-')
-		if (!parse_flags(flags, av[i]))
+		if (!parse_flags(av[i]))
 			break ;
-	print_flags(flags); //
+	t_print_flags(); //
 	while (i < ac)
 		parse_names(names, av[i++]);
-	print_names(*names); //
+	t_print_names(*names); //
 }

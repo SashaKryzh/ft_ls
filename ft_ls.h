@@ -41,10 +41,26 @@ typedef struct		s_names
 
 typedef struct		s_dir
 {
+	char			name[256];
+	char			path[100000];
 	struct s_dir	*next;
 }					t_dir;
 
-void				get_args(int ac, char *av[], t_flags *flags, t_names **names);
+typedef struct		s_file
+{
+	char			name[256];
+	struct stat		st;
+	struct s_file	*next;
+}					t_file;
+
+extern t_flags			g_flags;
+
+void				get_args(int ac, char *av[], t_names **names);
+void				print_current(char	*path);
+
+/*
+**	Utils
+*/
 
 void				exit_func(char *msg);
 
@@ -52,7 +68,9 @@ void				exit_func(char *msg);
 **	Tests
 */
 
-void				print_flags(t_flags *flags);
-void				print_names(t_names *names);
+void				t_print_flags(void);
+void				t_print_names(t_names *names);
+void				t_print_dirs(t_dir *dirs);
+void				t_print_files(t_file *files);
 
 #endif
