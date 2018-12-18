@@ -9,6 +9,21 @@ void	exit_func(char *msg)
 	exit(0);
 }
 
+void	print_file(t_file file)
+{
+	ft_printf("%s\n", file.name);
+}
+
+void	print_files(t_file	*files)
+{
+	while (files)
+	{
+		print_file(*files);
+		files = files->next;
+	}
+	ft_printf("\n");
+}
+
 void	add_directory(t_dir **dirs, struct dirent *dp, char *path)
 {
 	t_dir	*new;
@@ -17,7 +32,6 @@ void	add_directory(t_dir **dirs, struct dirent *dp, char *path)
 	ft_bzero(new, sizeof(t_dir));
 	ft_strcpy(new->name, dp->d_name);
 	ft_strcpy(new->path, path);
-	ft_strcat(new->path, "/");
 	ft_strcat(new->path, dp->d_name);
 	ft_strcat(new->path, "/");
 	new->next = *dirs;
@@ -57,6 +71,7 @@ void	print_current(char	*path)
 	files = NULL;
 	if (!(d = opendir(path)))
 		exit_func("d == 0");
+	ft_printf("%.*s:\n", ft_strlen(path) - 1, path);
 	while ((dp = readdir(d)))
 	{
 		if (dp->d_name[0] != '.')
@@ -69,8 +84,9 @@ void	print_current(char	*path)
 		}
 	}
 	closedir(d);
-	t_print_files(files);
-	t_print_dirs(dirs);
+	print_files(files);
+	// t_print_files(files); //
+	// t_print_dirs(dirs); //
 	if (g_flags.rec)
 		print_subdirs(dirs);
 }
