@@ -16,13 +16,18 @@
 # include "libft.h"
 
 # include <dirent.h>
+# include <time.h>
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <uuid/uuid.h>
 # include <sys/xattr.h>
+# include <pwd.h>
+# include <grp.h>
 
 # define OPTS "Rart1"
 # define USAGE "usage: ft_ls [-Rart1] [file ...]"
+
+# define IS_DOT ft_strequ(dp->d_name, ".") || ft_strequ(dp->d_name, "..")
 
 typedef struct		s_flags
 {
@@ -33,9 +38,11 @@ typedef struct		s_flags
 	unsigned char	t:		1;
 }					t_flags;
 
+extern t_flags		g_flags;
+
 typedef struct		s_names
 {
-	char			name[256];
+	char			name[1025];
 	struct s_names	*next;
 }					t_names;
 
@@ -47,10 +54,8 @@ typedef struct		s_file
 	struct s_file	*next;
 }					t_file;
 
-extern t_flags			g_flags;
-
 void				get_args(int ac, char *av[], t_names **names);
-void				print_current(char	*path);
+void				print_current(char *path, int show);
 
 /*
 **	Utils

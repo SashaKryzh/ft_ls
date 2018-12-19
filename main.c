@@ -20,8 +20,19 @@ void	exit_func(char *msg)
 	exit(0);
 }
 
+void	puttime(t_file file)
+{
+}
+
 void	print_file(t_file file)
 {
+	struct passwd *pw;
+	struct group  *gr;
+
+	pw = getpwuid(file.st.st_uid);
+	gr = getgrgid(file.st.st_gid);
+	ft_printf("%3d %s %-5s %6d", file.st.st_nlink, pw->pw_name, gr->gr_name, file.st.st_size);
+	ft_printf(" %.12s ", &ctime(&(file.st.st_mtime))[4]);
 	ft_printf("%s\n", file.name);
 }
 
@@ -55,14 +66,14 @@ void	print_files(t_file *files)
 			if (files->path)
 			{
 				ft_printf("\n");
-				print_current(files->path);
+				print_current(files->path, 1);
 			}
 			files = files->next;
 		}
 	}
 }
 
-void	print_current(char *path)
+void	print_current(char *path, int show)
 {
 	DIR				*d;
 	struct dirent	*dp;
@@ -73,18 +84,18 @@ void	print_current(char *path)
 	files = NULL;
 	if (!(d = opendir(path)))
 		exit_func("d == 0");
-	ft_printf("%s:\n", path);
+	if (show)
+		ft_printf("%s:\n", path);
 	while ((dp = readdir(d)))
 	{
-		if (dp->d_name[0] != '.')
-		{
-			to_file = ft_build_path(path, dp->d_name);
-			if (stat(to_file, &st) == -1)
-				exit_func("stat == -1");
-			if (!S_ISDIR(st.st_mode))
-				ft_strdel(&to_file);
-			add_file(&files, dp, st, to_file);
-		}
+		if (dp->d_name[0] == '.' && !g_flags.a)
+			continue ;
+		to_file = ft_build_path(path, dp->d_name);
+		if (lstat(to_file, &st) == -1)
+			exit_func("stat == -1");
+		if (!S_ISDIR(st.st_mode) || IS_DOT)
+			ft_strdel(&to_file);
+		add_file(&files, dp, st, to_file);
 	}
 	closedir(d);
 	sort_files(files);
@@ -97,6 +108,6 @@ int		main(int ac, char *av[])
 
 	get_args(ac, av, &names);
 	ft_printf("--- --- --- --- --- --- --- --- ---\n");
-	print_current(".");
+	print_current(".", 0);
 	return (0);
 }
