@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: okryzhan <okryzhan@student.unit.ua>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/12/19 13:52:56 by okryzhan          #+#    #+#             */
+/*   Updated: 2018/12/19 13:52:57 by okryzhan         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_ls.h"
 
@@ -14,31 +25,7 @@ void	print_file(t_file file)
 	ft_printf("%s\n", file.name);
 }
 
-void	print_files(t_file	*files)
-{
-	while (files)
-	{
-		print_file(*files);
-		files = files->next;
-	}
-	ft_printf("\n");
-}
-
-void	add_directory(t_dir **dirs, struct dirent *dp, char *path)
-{
-	t_dir	*new;
-
-	new = (t_dir *)malloc(sizeof(t_dir));
-	ft_bzero(new, sizeof(t_dir));
-	ft_strcpy(new->name, dp->d_name);
-	ft_strcpy(new->path, path);
-	ft_strcat(new->path, dp->d_name);
-	ft_strcat(new->path, "/");
-	new->next = *dirs;
-	*dirs = new;
-}
-
-void	add_file(t_file **files, struct dirent *dp, struct stat st)
+void	add_file(t_file **files, struct dirent *dp, struct stat st, char *path)
 {
 	t_file	*new;
 
@@ -46,49 +33,62 @@ void	add_file(t_file **files, struct dirent *dp, struct stat st)
 	ft_bzero(new, sizeof(t_file));
 	ft_strcpy(new->name, dp->d_name);
 	new->st = st;
+	new->path = path;
 	new->next = *files;
 	*files = new;
 }
 
-void	print_subdirs(t_dir	*dirs)
+void	print_files(t_file *files)
 {
-	while (dirs)
+	t_file *tmp;
+
+	tmp = files;
+	while (tmp)
 	{
-		print_current(dirs->path);
-		dirs = dirs->next;
+		print_file(*tmp);
+		tmp = tmp->next;
+	}
+	if (g_flags.rec)
+	{
+		while (files)
+		{
+			if (files->path)
+			{
+				ft_printf("\n");
+				print_current(files->path);
+			}
+			files = files->next;
+		}
 	}
 }
 
-void	print_current(char	*path)
+void	print_current(char *path)
 {
-	t_dir			*dirs;
-	t_file			*files;
 	DIR				*d;
 	struct dirent	*dp;
 	struct stat		st;
+	t_file			*files;
+	char			*to_file;
 
-	dirs = NULL;
 	files = NULL;
 	if (!(d = opendir(path)))
 		exit_func("d == 0");
-	ft_printf("%.*s:\n", ft_strlen(path) - 1, path);
+	ft_printf("%s:\n", path);
 	while ((dp = readdir(d)))
 	{
 		if (dp->d_name[0] != '.')
 		{
-			if (stat(ft_strjoin(path, dp->d_name), &st) == -1)
+			to_file = ft_build_path(path, dp->d_name);
+			if (stat(to_file, &st) == -1)
 				exit_func("stat == -1");
-			if (S_ISDIR(st.st_mode))
-				add_directory(&dirs, dp, path);
-			add_file(&files, dp, st);
+			if (!S_ISDIR(st.st_mode))
+				ft_strdel(&to_file);
+			add_file(&files, dp, st, to_file);
 		}
 	}
 	closedir(d);
+	sort_files(files);
 	print_files(files);
-	// t_print_files(files); //
-	// t_print_dirs(dirs); //
-	if (g_flags.rec)
-		print_subdirs(dirs);
 }
 
 int		main(int ac, char *av[])
@@ -97,6 +97,6 @@ int		main(int ac, char *av[])
 
 	get_args(ac, av, &names);
 	ft_printf("--- --- --- --- --- --- --- --- ---\n");
-	print_current("./");
+	print_current(".");
 	return (0);
 }

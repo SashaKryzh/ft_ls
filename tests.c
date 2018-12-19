@@ -16,15 +16,15 @@ void	t_print_names(t_names *names)
 	ft_printf("\n");
 }
 
-void	t_print_dirs(t_dir *dirs)
-{
-	ft_printf("\n!!! DIRS !!!\n");
-	while (dirs)
-	{
-		ft_printf("%s\n", dirs->name);
-		dirs = dirs->next;
-	}
-}
+// void	t_print_dirs(t_dir *dirs)
+// {
+// 	ft_printf("\n!!! DIRS !!!\n");
+// 	while (dirs)
+// 	{
+// 		ft_printf("%s\n", dirs->name);
+// 		dirs = dirs->next;
+// 	}
+// }
 
 void	t_print_files(t_file *files)
 {

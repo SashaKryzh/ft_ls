@@ -39,16 +39,10 @@ typedef struct		s_names
 	struct s_names	*next;
 }					t_names;
 
-typedef struct		s_dir
-{
-	char			name[256];
-	char			path[100000];
-	struct s_dir	*next;
-}					t_dir;
-
 typedef struct		s_file
 {
-	char			name[256];
+	char			name[1025];
+	char			*path;
 	struct stat		st;
 	struct s_file	*next;
 }					t_file;
@@ -63,6 +57,9 @@ void				print_current(char	*path);
 */
 
 void				exit_func(char *msg);
+char				*ft_build_path(char *path, char *file_name);
+
+void				sort_files(t_file *files);
 
 /*
 **	Tests
@@ -70,7 +67,7 @@ void				exit_func(char *msg);
 
 void				t_print_flags(void);
 void				t_print_names(t_names *names);
-void				t_print_dirs(t_dir *dirs);
+// void				t_print_dirs(t_dir *dirs);
 void				t_print_files(t_file *files);
 
 #endif

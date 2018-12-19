@@ -6,6 +6,8 @@ CC = gcc
 
 SRCS = main.c \
 parser.c \
+utils.c \
+sort_files.c \
 tests.c
 
 OBJS_DIR = ./objs
