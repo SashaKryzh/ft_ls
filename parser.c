@@ -41,8 +41,7 @@ void	parse_names(t_names **names, char *s)
 {
 	t_names	*new;
 
-	new = (t_names *)malloc(sizeof(t_names));
-	ft_bzero(new, sizeof(t_names));
+	new = (t_names *)ft_memalloc(sizeof(t_names));
 	ft_strcpy(new->name, s);
 	new->next = *names;
 	*names = new;

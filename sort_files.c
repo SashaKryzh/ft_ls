@@ -25,11 +25,17 @@ static int		swap_files(t_file *file)
 void			sort_files(t_file *files)
 {
 	t_file	*tmp;
+	time_t	t1;
+	time_t	t2;
 	int		swapped;
 
 	if (!files)
 		return ;
 	swapped = 1;
+	t1 = time(&files->st.st_mtime);
+	t2 = time(&files->next->st.st_mtime);
+	ft_printf("%d\n", t1);
+	ft_printf("%d", t2);
 	while (swapped)
 	{
 		swapped = 0;
@@ -38,6 +44,8 @@ void			sort_files(t_file *files)
 		{
 			if (!g_flags.t &&
 				(ft_strcmp(tmp->name, tmp->next->name) > 0) != g_flags.rev)
+				swapped = swap_files(tmp);
+			else if (g_flags.t && (time(&tmp->st.st_mtime) > time(&tmp->next->st.st_mtime)) != g_flags.rev)
 				swapped = swap_files(tmp);
 			tmp = tmp->next;
 		}

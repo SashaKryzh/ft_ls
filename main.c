@@ -20,10 +20,6 @@ void	exit_func(char *msg)
 	exit(0);
 }
 
-void	puttime(t_file file)
-{
-}
-
 void	print_file(t_file file)
 {
 	struct passwd *pw;
@@ -40,8 +36,7 @@ void	add_file(t_file **files, struct dirent *dp, struct stat st, char *path)
 {
 	t_file	*new;
 
-	new = (t_file *)malloc(sizeof(t_file));
-	ft_bzero(new, sizeof(t_file));
+	new = (t_file *)ft_memalloc(sizeof(t_file));
 	ft_strcpy(new->name, dp->d_name);
 	new->st = st;
 	new->path = path;
