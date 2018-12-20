@@ -28,6 +28,10 @@
 # define USAGE "usage: ft_ls [-Rart1] [file ...]"
 
 # define IS_DOT ft_strequ(dp->d_name, ".") || ft_strequ(dp->d_name, "..")
+# define WD_NLINK ft_nbrlen(files->st.st_nlink, 10)
+# define WD_NAME ft_strlen(pw->pw_name)
+# define WD_GROUP ft_strlen(gr->gr_name)
+# define WD_SIZE ft_nbrlen(files->st.st_size, 10)
 
 typedef struct		s_flags
 {
@@ -50,9 +54,16 @@ typedef struct		s_file
 {
 	char			name[1025];
 	char			*path;
+	char			*pw_name;
+	char			*gr_name;
 	struct stat		st;
 	struct s_file	*next;
 }					t_file;
+
+extern int			g_lwidth;
+extern int			g_nwidth;
+extern int			g_gwidth;
+extern int			g_swidth;
 
 void				get_args(int ac, char *av[], t_names **names);
 void				print_current(char *path, int show);
@@ -63,6 +74,7 @@ void				print_current(char *path, int show);
 
 void				exit_func(char *msg);
 char				*ft_build_path(char *path, char *file_name);
+void				calc_width(t_file *files);
 
 void				sort_files(t_file *files);
 

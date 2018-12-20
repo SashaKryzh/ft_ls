@@ -22,3 +22,26 @@ char	*ft_build_path(char *path, char *file_name)
 	ft_strcat(to_file, file_name);
 	return (to_file);
 }
+
+void	calc_width(t_file *files)
+{
+	struct passwd *pw;
+	struct group  *gr;
+
+	g_lwidth = 0;
+	g_nwidth = 0;
+	g_gwidth = 0;
+	g_swidth = 0;
+	while (files)
+	{
+		pw = getpwuid(files->st.st_uid);
+		gr = getgrgid(files->st.st_gid);
+		g_lwidth = WD_NLINK > g_lwidth ? WD_NLINK : g_lwidth;
+		g_nwidth = WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
+		g_gwidth = WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
+		g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
+		files->pw_name = ft_strdup(pw->pw_name);
+		files->gr_name = ft_strdup(gr->gr_name);
+		files = files->next;
+	}
+}

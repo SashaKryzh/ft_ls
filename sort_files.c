@@ -32,10 +32,10 @@ void			sort_files(t_file *files)
 	if (!files)
 		return ;
 	swapped = 1;
-	t1 = time(&files->st.st_mtime);
-	t2 = time(&files->next->st.st_mtime);
-	ft_printf("%d\n", t1);
-	ft_printf("%d", t2);
+	// t1 = time(&files->st.st_mtime);
+	// t2 = time(&files->next->st.st_mtime);
+	// ft_printf("%d\n", t1);
+	// ft_printf("%d", t2);
 	while (swapped)
 	{
 		swapped = 0;
