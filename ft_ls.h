@@ -74,12 +74,13 @@ extern int			g_cnt_args;
 extern int			g_show_total;
 
 void				get_ls_arg(int ac, char *av[], t_ls_arg **args);
-int					parse_dir(char *path, int show);
+void				parse_dir(char *path, int show);
 
 /*
 **	Print
 */
 
+void				print_files(t_file *files);
 void				print_files_col(t_file *files);
 void				print_files_row(t_file *files);
 

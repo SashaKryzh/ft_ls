@@ -50,33 +50,6 @@ void	print_files(t_file *files)
 	free_files(files);
 }
 
-int		parse_dir(char *path, int show)
-{
-	DIR				*d;
-	struct dirent	*dp;
-	struct stat		st;
-	t_file			*files;
-	char			*to_file;
-
-	files = NULL;
-	if (!(d = opendir(path)))
-		return (0);
-	if (show)
-		ft_printf("%s:\n", path);
-	while ((dp = readdir(d)))
-	{
-		if (dp->d_name[0] == '.' && !g_flags.a)
-			continue ;
-		to_file = ft_build_path(path, dp->d_name);
-		if (lstat(to_file, &st) == -1)
-			exit_func("stat == -1");
-		add_file(&files, dp->d_name, st, to_file);
-	}
-	closedir(d);
-	print_files(sort_files(files));
-	return (1);
-}
-
 void	print_dirs(t_file *dirs, t_file *files)
 {
 	int	check;
@@ -106,7 +79,7 @@ void	print_ls_arg(t_ls_arg *args)
 	while (args)
 	{
 		if (lstat(args->arg, &st) == -1)
-			ft_printf("!!!\n");
+			ft_printf("lstat in args == -1\n");
 		else
 		{
     		if (!S_ISDIR(st.st_mode))
