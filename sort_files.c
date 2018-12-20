@@ -22,6 +22,22 @@ static int		swap_files(t_file *file)
 	return (1);
 }
 
+static int		check_time(t_file *files)
+{
+	if (!g_flags.t)
+		return (0);
+	if (!g_flags.rev && files->st.st_mtime < files->next->st.st_mtime)
+		return (1);
+	if (g_flags.rev && files->st.st_mtime > files->next->st.st_mtime)
+		return (1);
+	if (files->st.st_mtime == files->next->st.st_mtime)
+	{
+		if ((ft_strcmp(files->name, files->next->name) > 0) != g_flags.rev)
+			return (1);
+	}
+	return (0);
+}
+
 t_file			*sort_files(t_file *files)
 {
 	t_file	*tmp;
@@ -39,7 +55,7 @@ t_file			*sort_files(t_file *files)
 			if (!g_flags.t &&
 				(ft_strcmp(tmp->name, tmp->next->name) > 0) != g_flags.rev)
 				swapped = swap_files(tmp);
-			else if (g_flags.t && (time(&tmp->st.st_mtime) > time(&tmp->next->st.st_mtime)) != g_flags.rev)
+			else if (check_time(tmp))
 				swapped = swap_files(tmp);
 			tmp = tmp->next;
 		}
