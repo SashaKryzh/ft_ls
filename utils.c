@@ -45,3 +45,15 @@ void	calc_width(t_file *files)
 		files = files->next;
 	}
 }
+
+void	free_files(t_file *files)
+{
+	if (!files)
+		return ;
+	free_files(files->next);
+	if (files->path)
+		free(files->path);
+	free(files->pw_name);
+	free(files->gr_name);
+	free(files);
+}

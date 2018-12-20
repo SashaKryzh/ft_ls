@@ -70,6 +70,8 @@ void		print_file_col(t_file *files)
 
 void		print_file_row(t_file *files)
 {
+	if (!files)
+		return ;
 	while (files->next)
 	{
 		ft_printf("%s\t", files->name);

@@ -84,6 +84,7 @@ void				print_file_row(t_file *files);
 void				exit_func(char *msg);
 char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
+void				free_files(t_file *files);
 
 void				sort_files(t_file *files);
 

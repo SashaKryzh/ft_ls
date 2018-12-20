@@ -48,16 +48,17 @@ void	print_files(t_file *files)
 		print_file_row(files);
 	if (g_flags.rec)
 	{
-		while (files)
+		while (tmp)
 		{
-			if (files->path)
+			if (tmp->path)
 			{
 				ft_printf("\n");
-				print_current(files->path, 1);
+				print_current(tmp->path, 1);
 			}
-			files = files->next;
+			tmp = tmp->next;
 		}
 	}
+	free_files(files);
 }
 
 void	print_current(char *path, int show)
