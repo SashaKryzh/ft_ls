@@ -48,11 +48,25 @@ void	calc_width(t_file *files)
 	}
 }
 
+void	add_file(t_file **files, char *name, struct stat st, char *path)
+{
+	t_file	*new;
+
+	new = (t_file *)ft_memalloc(sizeof(t_file));
+	new->name = ft_strdup(name);
+	new->is_dir = S_ISDIR(st.st_mode) && !(IS_DOT) ? 1 : 0;
+	new->st = st;
+	new->path = path;
+	new->next = *files;
+	*files = new;
+}
+
 void	free_files(t_file *files)
 {
 	if (!files)
 		return ;
 	free_files(files->next);
+	free(files->name);
 	if (files->path)
 		free(files->path);
 	free(files->pw_name);

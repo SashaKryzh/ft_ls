@@ -47,6 +47,7 @@ void	parse_args(t_ls_arg **args, char *s)
 	new->arg = ft_strdup(s);
 	new->next = *args;
 	*args = new;
+	g_cnt_args += 1;
 }
 
 void	get_ls_arg(int ac, char *av[], t_ls_arg **args)
@@ -58,8 +59,8 @@ void	get_ls_arg(int ac, char *av[], t_ls_arg **args)
 	while (++i < ac && av[i][0] == '-')
 		if (!parse_flags(av[i]))
 			break ;
-	t_print_flags(); //
+	// t_print_flags(); //
 	while (i < ac)
 		parse_args(args, av[i++]);
-	t_print_ls_arg(*args); //
+	// t_print_ls_arg(*args); //
 }

@@ -26,8 +26,9 @@
 
 # define OPTS "Rart1l"
 # define USAGE "usage: ft_ls [-Rart1] [file ...]"
+# define LS_YEAR 31536000
 
-# define IS_DOT ft_strequ(dp->d_name, ".") || ft_strequ(dp->d_name, "..")
+# define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")
 
 # define WD_NLINK ft_nbrlen(files->st.st_nlink, 10)
 # define WD_NAME ft_strlen(pw->pw_name)
@@ -56,6 +57,7 @@ typedef struct		s_file
 {
 	char			*name;
 	char			*path;
+	int				is_dir;
 	char			*pw_name;
 	char			*gr_name;
 	struct stat		st;
@@ -68,8 +70,11 @@ extern int			g_nwidth;
 extern int			g_gwidth;
 extern int			g_swidth;
 
+extern int			g_cnt_args;
+extern int			g_show_total;
+
 void				get_ls_arg(int ac, char *av[], t_ls_arg **args);
-int					print_current(char *path, int show);
+int					parse_dir(char *path, int show);
 
 /*
 **	Print
@@ -85,10 +90,10 @@ void				print_files_row(t_file *files);
 void				exit_func(char *msg);
 char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
+void				add_file(t_file **files, char *name, struct stat st, char *path);
 void				free_files(t_file *files);
 
-void				sort_files(t_file *files);
-
+t_file				*sort_files(t_file *files);
 /*
 **	Tests
 */

@@ -18,24 +18,13 @@ int				g_lwidth;
 int				g_nwidth;
 int				g_gwidth;
 int				g_swidth;
-int				g_ac;
+int				g_cnt_args;
+int				g_show_total;
 
 void	exit_func(char *msg)
 {
 	ft_printf("ft_ls: %s\n", msg);
 	exit(0);
-}
-
-void	add_file(t_file **files, char *name, struct stat st, char *path)
-{
-	t_file	*new;
-
-	new = (t_file *)ft_memalloc(sizeof(t_file));
-	new->name = ft_strdup(name);
-	new->st = st;
-	new->path = path;
-	new->next = *files;
-	*files = new;
 }
 
 void	print_files(t_file *files)
@@ -50,19 +39,18 @@ void	print_files(t_file *files)
 		print_files_row(files);
 	while (g_flags.rec && tmp)
 	{
-		if (tmp->path)
+		if (tmp->is_dir)
 		{
 			ft_printf("\n");
-			if (g_flags.l)
-				ft_printf("total: %d\n", g_blocks);
-			print_current(tmp->path, 1);
+			g_show_total = 1;
+			parse_dir(tmp->path, 1);
 		}
 		tmp = tmp->next;
 	}
 	free_files(files);
 }
 
-int		print_current(char *path, int show)
+int		parse_dir(char *path, int show)
 {
 	DIR				*d;
 	struct dirent	*dp;
@@ -82,24 +70,24 @@ int		print_current(char *path, int show)
 		to_file = ft_build_path(path, dp->d_name);
 		if (lstat(to_file, &st) == -1)
 			exit_func("stat == -1");
-		if (!S_ISDIR(st.st_mode) || IS_DOT)
-			ft_strdel(&to_file);
 		add_file(&files, dp->d_name, st, to_file);
 	}
 	closedir(d);
-	sort_files(files);
-	print_files(files);
+	print_files(sort_files(files));
 	return (1);
 }
 
-void	print_dirs(t_file *dirs)
+void	print_dirs(t_file *dirs, t_file *files)
 {
 	int	check;
 
 	check = 0;
+	if (files && dirs)
+		ft_printf("\n");
+	g_show_total = 1;
 	while (dirs)
 	{
-		print_current(dirs->name, g_ac > 2 || check);
+		parse_dir(dirs->name, g_cnt_args > 1 || check);
 		if (dirs->next)
 			ft_printf("\n");
 		dirs = dirs->next;
@@ -124,25 +112,23 @@ void	print_ls_arg(t_ls_arg *args)
     		if (!S_ISDIR(st.st_mode))
 				add_file(&files, args->arg, st, NULL);
 			else
-				add_file(&dirs, args->arg, st, NULL);
+				add_file(&dirs, args->arg, st, args->arg);
 		}
 		args = args->next;
 	}
 	print_files(files);
-	print_dirs(dirs);
+	print_dirs(dirs, files);
 }
 
 int		main(int ac, char *av[])
 {
 	t_ls_arg			*args;
 
-	g_ac = ac;
 	get_ls_arg(ac, av, &args);
-	ft_printf("--- --- --- --- --- --- --- --- ---\n");
 	if (args)
 		print_ls_arg(args);
 	else
-		print_current(".", 0);
+		parse_dir(".", 0);
 	// system("leaks ft_ls"); //
 	return (0);
 }
