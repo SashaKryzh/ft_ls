@@ -17,6 +17,7 @@ CC = gcc
 
 SRCS = main.c \
 print.c \
+print_utils.c \
 parse_dir.c \
 parser.c \
 utils.c \

@@ -85,6 +85,16 @@ void				print_files_col(t_file *files);
 void				print_files_row(t_file *files);
 
 /*
+**	Print utils
+*/
+
+
+void		get_path(char *path, char *dst);
+void		show_filetype(struct stat st, char *path, char *dst);
+void		show_permission(struct stat st);
+void		show_time(struct stat st);
+
+/*
 **	Utils
 */
 
