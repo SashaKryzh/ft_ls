@@ -24,8 +24,8 @@
 # include <pwd.h>
 # include <grp.h>
 
-# define OPTS "Rart1l"
-# define USAGE "usage: ft_ls [-Rart1] [file ...]"
+# define OPTS "Rartl1"
+# define USAGE "usage: ft_ls [-Rartl1] [file ...]"
 # define LS_YEAR 31536000
 
 # define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")
@@ -92,15 +92,14 @@ char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
 void				add_file(t_file **files, char *name, struct stat st, char *path);
 void				free_files(t_file *files);
-
 t_file				*sort_files(t_file *files);
+
 /*
 **	Tests
 */
 
 void				t_print_flags(void);
 void				t_print_ls_arg(t_ls_arg *args);
-// void				t_print_dirs(t_dir *dirs);
 void				t_print_files(t_file *files);
 
 #endif
