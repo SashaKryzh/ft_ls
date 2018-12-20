@@ -24,10 +24,11 @@
 # include <pwd.h>
 # include <grp.h>
 
-# define OPTS "Rart1"
+# define OPTS "Rart1l"
 # define USAGE "usage: ft_ls [-Rart1] [file ...]"
 
 # define IS_DOT ft_strequ(dp->d_name, ".") || ft_strequ(dp->d_name, "..")
+
 # define WD_NLINK ft_nbrlen(files->st.st_nlink, 10)
 # define WD_NAME ft_strlen(pw->pw_name)
 # define WD_GROUP ft_strlen(gr->gr_name)
@@ -40,6 +41,7 @@ typedef struct		s_flags
 	unsigned char	a:		1;
 	unsigned char	rev:	1;
 	unsigned char	t:		1;
+	unsigned char	l:		1;
 }					t_flags;
 
 extern t_flags		g_flags;
@@ -67,6 +69,13 @@ extern int			g_swidth;
 
 void				get_args(int ac, char *av[], t_names **names);
 void				print_current(char *path, int show);
+
+/*
+**	Print
+*/
+
+void				print_file_col(t_file *files);
+void				print_file_row(t_file *files);
 
 /*
 **	Utils

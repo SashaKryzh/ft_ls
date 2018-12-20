@@ -5,6 +5,7 @@ FLAGS = -Wall -Werror -Wextra
 CC = gcc
 
 SRCS = main.c \
+print.c \
 parser.c \
 utils.c \
 sort_files.c \

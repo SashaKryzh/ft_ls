@@ -33,6 +33,8 @@ int		parse_flags(char *s)
 			g_flags.t = 1;
 		if (s[i] == '1')
 			g_flags.one = 1;
+		if (s[i] == 'l')
+			g_flags.l = 1;
 	}
 	return (1);
 }
