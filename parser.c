@@ -39,27 +39,27 @@ int		parse_flags(char *s)
 	return (1);
 }
 
-void	parse_names(t_names **names, char *s)
+void	parse_args(t_ls_arg **args, char *s)
 {
-	t_names	*new;
+	t_ls_arg	*new;
 
-	new = (t_names *)ft_memalloc(sizeof(t_names));
-	ft_strcpy(new->name, s);
-	new->next = *names;
-	*names = new;
+	new = (t_ls_arg *)ft_memalloc(sizeof(t_ls_arg));
+	new->arg = ft_strdup(s);
+	new->next = *args;
+	*args = new;
 }
 
-void	get_args(int ac, char *av[], t_names **names)
+void	get_ls_arg(int ac, char *av[], t_ls_arg **args)
 {
 	int		i;
 
 	i = 0;
-	*names = NULL;
+	*args = NULL;
 	while (++i < ac && av[i][0] == '-')
 		if (!parse_flags(av[i]))
 			break ;
 	t_print_flags(); //
 	while (i < ac)
-		parse_names(names, av[i++]);
-	t_print_names(*names); //
+		parse_args(args, av[i++]);
+	t_print_ls_arg(*args); //
 }

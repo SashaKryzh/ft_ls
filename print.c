@@ -30,8 +30,6 @@ static void	show_filetype(struct stat st)
         c = 'l';
     else if (S_ISSOCK(st.st_mode))
         c = 's';
-    // else if (S_ISDOOR(st.st_mode))
-    //     c = 'D';
     else
         c = '?';
     ft_printf("%c", c);
@@ -50,7 +48,7 @@ static void	show_permission(struct stat st)
     ft_printf((st.st_mode & S_IXOTH) ? "x " : "- ");
 }
 
-void		print_file_col(t_file *files)
+void		print_files_col(t_file *files)
 {
 	while (files)
 	{
@@ -68,7 +66,7 @@ void		print_file_col(t_file *files)
 	}
 }
 
-void		print_file_row(t_file *files)
+void		print_files_row(t_file *files)
 {
 	if (!files)
 		return ;

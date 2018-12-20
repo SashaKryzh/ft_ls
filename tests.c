@@ -3,35 +3,14 @@
 
 void	t_print_flags(void)
 {
-	ft_printf("[R: %d], [a: %d], [r: %d], [t: %d], [1: %d]\n", g_flags.rec, g_flags.a, g_flags.rev, g_flags.t, g_flags.one);
+	ft_printf("[R: %d], [a: %d], [r: %d], [t: %d], [1: %d] [l: %d]\n", g_flags.rec, g_flags.a, g_flags.rev, g_flags.t, g_flags.one, g_flags.l);
 }
 
-void	t_print_names(t_names *names)
+void	t_print_ls_arg(t_ls_arg *args)
 {
-	while (names)
+	while (args)
 	{
-		ft_printf("%s\n", names->name);
-		names = names->next;
-	}
-	ft_printf("\n");
-}
-
-// void	t_print_dirs(t_dir *dirs)
-// {
-// 	ft_printf("\n!!! DIRS !!!\n");
-// 	while (dirs)
-// 	{
-// 		ft_printf("%s\n", dirs->name);
-// 		dirs = dirs->next;
-// 	}
-// }
-
-void	t_print_files(t_file *files)
-{
-	ft_printf("\n!!! FILES !!!\n");
-	while (files)
-	{
-		ft_printf("%10s %d\n", files->name, S_ISDIR(files->st.st_mode));
-		files = files->next;
+		ft_printf("%s\n", args->arg);
+		args = args->next;
 	}
 }

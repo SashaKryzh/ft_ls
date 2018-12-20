@@ -46,15 +46,15 @@ typedef struct		s_flags
 
 extern t_flags		g_flags;
 
-typedef struct		s_names
+typedef struct		s_ls_arg
 {
-	char			name[1025];
-	struct s_names	*next;
-}					t_names;
+	char			*arg;
+	struct s_ls_arg	*next;
+}					t_ls_arg;
 
 typedef struct		s_file
 {
-	char			name[1025];
+	char			*name;
 	char			*path;
 	char			*pw_name;
 	char			*gr_name;
@@ -62,20 +62,21 @@ typedef struct		s_file
 	struct s_file	*next;
 }					t_file;
 
+extern int			g_blocks;
 extern int			g_lwidth;
 extern int			g_nwidth;
 extern int			g_gwidth;
 extern int			g_swidth;
 
-void				get_args(int ac, char *av[], t_names **names);
-void				print_current(char *path, int show);
+void				get_ls_arg(int ac, char *av[], t_ls_arg **args);
+int					print_current(char *path, int show);
 
 /*
 **	Print
 */
 
-void				print_file_col(t_file *files);
-void				print_file_row(t_file *files);
+void				print_files_col(t_file *files);
+void				print_files_row(t_file *files);
 
 /*
 **	Utils
@@ -93,7 +94,7 @@ void				sort_files(t_file *files);
 */
 
 void				t_print_flags(void);
-void				t_print_names(t_names *names);
+void				t_print_ls_arg(t_ls_arg *args);
 // void				t_print_dirs(t_dir *dirs);
 void				t_print_files(t_file *files);
 

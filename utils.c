@@ -28,6 +28,7 @@ void	calc_width(t_file *files)
 	struct passwd *pw;
 	struct group  *gr;
 
+	g_blocks = 0;
 	g_lwidth = 0;
 	g_nwidth = 0;
 	g_gwidth = 0;
@@ -42,6 +43,7 @@ void	calc_width(t_file *files)
 		g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
 		files->pw_name = ft_strdup(pw->pw_name);
 		files->gr_name = ft_strdup(gr->gr_name);
+		g_blocks += files->st.st_blocks;
 		files = files->next;
 	}
 }
