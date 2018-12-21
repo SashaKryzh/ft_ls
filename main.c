@@ -76,7 +76,7 @@ void	print_ls_arg(t_ls_arg *args)
 			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
 		else
 		{
-    		if (!S_ISDIR(st.st_mode))
+			if (!S_ISDIR(st.st_mode))
 				add_file(&files, args->arg, st, NULL);
 			else
 				add_file(&dirs, args->arg, st, args->arg);

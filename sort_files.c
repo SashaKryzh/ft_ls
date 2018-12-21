@@ -43,8 +43,8 @@ t_file			*sort_files(t_file *files)
 	t_file	*tmp;
 	int		swapped;
 
-	if (!files)
-		return (NULL);
+	if (!files || g_flags.U)
+		return (files);
 	swapped = 1;
 	while (swapped)
 	{
@@ -69,8 +69,8 @@ t_ls_arg		*sort_args(t_ls_arg *args)
 	t_ls_arg	tmp2;
 	int			swapped;
 
-	if (!args)
-		return (NULL);
+	if (!args || g_flags.U)
+		return (args);
 	swapped = 1;
 	while (swapped)
 	{

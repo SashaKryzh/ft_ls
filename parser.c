@@ -19,6 +19,18 @@ static void	illegal_option(char opt)
 	exit(0);
 }
 
+static void	parse_flags_2(char opt)
+{
+	if (s[i] == 'U')
+		g_flags.U = 1;
+	if (s[i] == 'o')
+		g_flags.o = 1;
+	if (s[i] == 'g')
+		g_flags.g = 1;
+	if (s[i] == 'm')
+		g_flags.m = 1;
+}
+
 int			parse_flags(char *s)
 {
 	int i;
@@ -42,6 +54,7 @@ int			parse_flags(char *s)
 			g_flags.l = 1;
 		if (s[i] == '1')
 			g_flags.one = 1;
+		parse_flags_2(s[i]);
 	}
 	return (1);
 }

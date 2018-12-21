@@ -26,8 +26,8 @@
 # include <errno.h>
 # include <stdio.h>
 
-# define OPTS "Rartl1"
-# define USAGE "usage: ft_ls [-Rartl1] [file ...]"
+# define OPTS "Rartl1Uogm"
+# define USAGE "usage: ft_ls [-Rartl1Uogm] [file ...]"
 # define LS_YEAR 31536000
 
 # define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")
@@ -45,6 +45,10 @@ typedef struct		s_flags
 	unsigned char	rev:	1;
 	unsigned char	t:		1;
 	unsigned char	l:		1;
+	unsigned char	U:		1;
+	unsigned char	o:		1;
+	unsigned char	g:		1;
+	unsigned char	m:		1;
 }					t_flags;
 
 extern t_flags		g_flags;

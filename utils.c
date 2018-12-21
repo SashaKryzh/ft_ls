@@ -25,8 +25,8 @@ char	*ft_build_path(char *path, char *file_name)
 
 void	calc_width(t_file *files)
 {
-	struct passwd *pw;
-	struct group  *gr;
+	struct passwd	*pw;
+	struct group	*gr;
 
 	g_blocks = 0;
 	g_lwidth = 0;
