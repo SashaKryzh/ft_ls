@@ -48,10 +48,26 @@ void		print_files_col(t_file *files, int show_total)
 	}
 }
 
+void		print_comma(t_file *files)
+{
+	while (files)
+	{
+		ft_printf("%s", files->name);
+		if ((files = files->next))
+			ft_printf(", ");
+	}
+	ft_printf("\n");
+}
+
 void		print_files_row(t_file *files)
 {
 	if (!files)
 		return ;
+	if (g_flags.m)
+	{
+		print_comma(files);
+		return ;
+	}
 	while (files->next)
 	{
 		ft_printf("%s\t", files->name);
