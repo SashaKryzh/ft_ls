@@ -50,18 +50,14 @@ void	print_files(t_file *files, int show_total)
 
 void	print_dirs(t_file *dirs, t_file *files)
 {
-	int	check;
-
-	check = 0;
 	if (files && dirs)
 		ft_printf("\n");
 	while (dirs)
 	{
-		parse_dir(dirs->name, g_cnt_args > 1 || check);
+		parse_dir(dirs->name, g_cnt_args > 1);
 		if (dirs->next)
 			ft_printf("\n");
 		dirs = dirs->next;
-		check = 1;
 	}
 }
 

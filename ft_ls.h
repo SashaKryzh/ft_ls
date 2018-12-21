@@ -23,6 +23,7 @@
 # include <sys/xattr.h>
 # include <pwd.h>
 # include <grp.h>
+# include <errno.h>
 
 # define OPTS "Rartl1"
 # define USAGE "usage: ft_ls [-Rartl1] [file ...]"
@@ -90,7 +91,7 @@ void				print_files_row(t_file *files);
 
 void		get_path(char *path, char *dst);
 void		show_filetype(struct stat st, char *path, char *dst);
-void		show_permission(struct stat st);
+void		show_permission(struct stat st, char *path);
 void		show_time(struct stat st);
 
 /*

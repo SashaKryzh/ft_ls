@@ -18,7 +18,7 @@ void	get_path(char *path, char *dst)
 
 	ft_strcpy(dst, " -> ");
 	if ((ret = readlink(path, &dst[4], 1025)) == -1)
-		exit_func("readlink == -1");
+		ft_printf("readlink == -1\n");
 	dst[ret + 4] = '\0';
 }
 
@@ -48,7 +48,7 @@ void	show_filetype(struct stat st, char *path, char *dst)
 	ft_printf("%c", c);
 }
 
-void	show_permission(struct stat st)
+void	show_permission(struct stat st, char *path)
 {
 	ft_printf((st.st_mode & S_IRUSR) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWUSR) ? "w" : "-");
@@ -59,9 +59,13 @@ void	show_permission(struct stat st)
 	ft_printf((st.st_mode & S_IROTH) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWOTH) ? "w" : "-");
 	if (st.st_mode & S_ISVTX)
-		ft_printf("t ");
+		ft_printf("t");
 	else
-		ft_printf((st.st_mode & S_IXOTH) ? "x " : "- ");
+		ft_printf((st.st_mode & S_IXOTH) ? "x" : "-");
+	if (listxattr(path, NULL, 0, 0))
+		ft_printf("@");
+	else
+		ft_printf(" ");
 }
 
 void	show_time(struct stat st)

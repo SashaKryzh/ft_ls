@@ -25,6 +25,14 @@ void	add_file(t_file **files, char *name, struct stat st, char *path)
 	*files = new;
 }
 
+void	check_d_error(char *path)
+{
+	if (ft_strequ(path, "/dev/fd/3"))
+		ft_printf("ft_ls: 3: Not a directory\n");
+	else
+		ft_printf("ft_ls: %s: Permission dinied\n", ft_strrchr(path, '/') + 1);
+}
+
 void	parse_dir(char *path, int show)
 {
 	DIR				*d;
@@ -35,7 +43,10 @@ void	parse_dir(char *path, int show)
 
 	files = NULL;
 	if (!(d = opendir(path)))
-		exit_func("d == 0");
+	{
+		check_d_error(path);
+		return ;
+	}
 	if (show)
 		ft_printf("%s:\n", path);
 	while ((dp = readdir(d)))

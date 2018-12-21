@@ -16,7 +16,7 @@ FLAGS = -Wall -Werror -Wextra
 CC = gcc
 
 SRCS = main.c \
-print.c \
+print_col_row.c \
 print_utils.c \
 parse_dir.c \
 parser.c \
