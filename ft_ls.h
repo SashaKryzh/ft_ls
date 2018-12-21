@@ -24,6 +24,7 @@
 # include <pwd.h>
 # include <grp.h>
 # include <errno.h>
+# include <stdio.h>
 
 # define OPTS "Rartl1"
 # define USAGE "usage: ft_ls [-Rartl1] [file ...]"
