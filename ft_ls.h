@@ -25,8 +25,8 @@
 # include <grp.h>
 # include <errno.h>
 
-# define OPTS "Rartl1Uogm"
-# define USAGE "usage: ft_ls [-Rartl1Uogm] [file ...]"
+# define OPTS "Rartl1UogmS"
+# define USAGE "usage: ft_ls [-Rartl1UogmS] [file ...]"
 # define LS_YEAR 31536000
 
 # define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")
@@ -46,10 +46,11 @@ typedef struct		s_flags
 	unsigned char	rev:	1;
 	unsigned char	t:		1;
 	unsigned char	l:		1;
-	unsigned char	U:		1;
+	unsigned char	no_sort:1;
 	unsigned char	o:		1;
 	unsigned char	g:		1;
 	unsigned char	m:		1;
+	unsigned char	s_sort:	1;
 }					t_flags;
 
 extern t_flags		g_flags;
@@ -96,7 +97,6 @@ void				print_files_row(t_file *files);
 **	Print utils
 */
 
-
 void				get_link_path(char *path, char *dst);
 void				show_filetype(struct stat st, char *path, char *dst);
 void				show_permission(struct stat st, char *path);
@@ -112,7 +112,8 @@ void				show_pwgr(t_file *files);
 void				exit_func(char *msg);
 char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
-void				add_file(t_file **files, char *name, struct stat st, char *path);
+void				add_file(t_file **files, char *name,
+					struct stat st, char *path);
 void				free_files(t_file *files);
 t_file				*sort_files(t_file *files);
 t_ls_arg			*sort_args(t_ls_arg *args);

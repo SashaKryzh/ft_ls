@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	show_filetype(struct stat st, char *path, char *dst)
+void		show_filetype(struct stat st, char *path, char *dst)
 {
 	char	c;
 
@@ -38,7 +38,7 @@ void	show_filetype(struct stat st, char *path, char *dst)
 	ft_printf("%c", c);
 }
 
-void	show_other_permission(struct stat st, char *path)
+void		show_other_permission(struct stat st, char *path)
 {
 	if (st.st_mode & S_ISVTX)
 		ft_printf((st.st_mode & S_IXOTH) ? "t" : "T");
@@ -50,7 +50,7 @@ void	show_other_permission(struct stat st, char *path)
 		ft_printf(" ");
 }
 
-void	show_permission(struct stat st, char *path)
+void		show_permission(struct stat st, char *path)
 {
 	ft_printf((st.st_mode & S_IRUSR) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWUSR) ? "w" : "-");
@@ -78,7 +78,7 @@ void		show_size(t_file *files)
 	check = !files->next ? 0 : check;
 }
 
-void	show_time(struct stat st)
+void		show_time(struct stat st)
 {
 	char	*tm;
 

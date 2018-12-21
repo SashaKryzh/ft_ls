@@ -22,13 +22,15 @@ static void	illegal_option(char opt)
 static void	parse_flags_2(char opt)
 {
 	if (opt == 'U')
-		g_flags.U = 1;
+		g_flags.no_sort = 1;
 	if (opt == 'o')
 		g_flags.o = 1;
 	if (opt == 'g')
 		g_flags.g = 1;
 	if (opt == 'm')
 		g_flags.m = 1;
+	if (opt == 'S')
+		g_flags.s_sort = 1;
 }
 
 int			parse_flags(char *s)
