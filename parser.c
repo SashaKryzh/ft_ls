@@ -15,7 +15,7 @@
 static void	illegal_option(char opt)
 {
 	ft_printf("ft_ls: illegal option -- %c\n", opt);
-	ft_printf("%s\n", USAGE);
+	ft_printf("%s\n", LS_USAGE);
 	exit(0);
 }
 
@@ -42,7 +42,7 @@ int			parse_flags(char *s)
 	i = 0;
 	while (s[++i])
 	{
-		if (!ft_contains(OPTS, s[i]))
+		if (!ft_contains(LS_OPTS, s[i]))
 			illegal_option(s[i]);
 		if (s[i] == 'R')
 			g_flags.rec = 1;

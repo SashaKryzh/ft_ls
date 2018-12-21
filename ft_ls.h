@@ -25,8 +25,8 @@
 # include <grp.h>
 # include <errno.h>
 
-# define OPTS "Rartl1UogmS"
-# define USAGE "usage: ft_ls [-Rartl1UogmS] [file ...]"
+# define LS_OPTS "Rartl1UogmS"
+# define LS_USAGE "usage: ft_ls [-Rartl1UogmS] [file ...]"
 # define LS_YEAR 31536000
 
 # define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")

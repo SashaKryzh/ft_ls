@@ -102,6 +102,6 @@ int		main(int ac, char *av[])
 		print_ls_arg(args);
 	else
 		parse_dir(".", 0);
-	// system("leaks ft_ls"); //
+	system("leaks ft_ls"); //
 	return (0);
 }

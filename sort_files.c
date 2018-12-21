@@ -69,7 +69,7 @@ t_file			*sort_files(t_file *files)
 				swapped = swap_files(tmp);
 			else if (g_flags.t && check_time(tmp))
 				swapped = swap_files(tmp);
-			else if (g_flags.s_sort && check_size(tmp))
+			else if (g_flags.s_sort && !g_flags.t && check_size(tmp))
 				swapped = swap_files(tmp);
 			tmp = tmp->next;
 		}
