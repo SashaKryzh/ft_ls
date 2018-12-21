@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	add_file(t_file **files, char *name, struct stat st, char *path)
+t_file	*creat_file(char *name, struct stat st, char *path)
 {
 	t_file	*new;
 
@@ -21,8 +21,22 @@ void	add_file(t_file **files, char *name, struct stat st, char *path)
 	new->is_dir = S_ISDIR(st.st_mode) && !(IS_DOT) ? 1 : 0;
 	new->st = st;
 	new->path = path;
-	new->next = *files;
-	*files = new;
+	return (new);
+}
+
+void	add_file(t_file **files, char *name, struct stat st, char *path)
+{
+	t_file	*tmp;
+
+	if (!*files)
+		*files = creat_file(name, st, path);
+	else
+	{
+		tmp = *files;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = creat_file(name, st, path);
+	}
 }
 
 void	check_d_error(char *path)

@@ -21,13 +21,13 @@ static void	illegal_option(char opt)
 
 static void	parse_flags_2(char opt)
 {
-	if (s[i] == 'U')
+	if (opt == 'U')
 		g_flags.U = 1;
-	if (s[i] == 'o')
+	if (opt == 'o')
 		g_flags.o = 1;
-	if (s[i] == 'g')
+	if (opt == 'g')
 		g_flags.g = 1;
-	if (s[i] == 'm')
+	if (opt == 'm')
 		g_flags.m = 1;
 }
 
