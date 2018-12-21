@@ -70,11 +70,11 @@ void		show_size(t_file *files)
 	if (S_ISCHR(files->st.st_mode) || S_ISBLK(files->st.st_mode))
 	{
 		ft_printf(" %*d,", g_mawidth + 1, major(files->st.st_rdev));
-		ft_printf("%*d", g_miwidth, minor(files->st.st_rdev));
+		ft_printf("%*d", g_miwidth + 1, minor(files->st.st_rdev));
 		check = g_mawidth + g_miwidth;
 	}
 	else
-		ft_printf("%*d", check ? check + 3 : g_swidth + 1, files->st.st_size);
+		ft_printf("%*d", check ? check + 4 : g_swidth + 1, files->st.st_size);
 	check = !files->next ? 0 : check;
 }
 

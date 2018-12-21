@@ -12,34 +12,6 @@
 
 #include "ft_ls.h"
 
-void		show_pwgr(t_file *files)
-{
-	if (!g_flags.g)
-	{
-		ft_printf("%-*s", g_nwidth + 1, files->pw_name);
-		ft_printf("%s", !g_flags.o ? " " : "");
-	}
-	if (!g_flags.o)
-		ft_printf("%-*s", g_gwidth + 1, files->gr_name);
-	if (g_flags.g && g_flags.o)
-		ft_printf(" ");
-}
-
-void		show_size(t_file *files)
-{
-	static int	check;
-
-	if (S_ISCHR(files->st.st_mode) || S_ISBLK(files->st.st_mode))
-	{
-		ft_printf(" %*d,", g_mawidth + 1, major(files->st.st_rdev));
-		ft_printf("%*d", g_miwidth, minor(files->st.st_rdev));
-		check = g_mawidth + g_miwidth;
-	}
-	else
-		ft_printf("%*d", check ? check + 3 : g_swidth + 1, files->st.st_size);
-	check = !files->next ? 0 : check;
-}
-
 void		print_files_col(t_file *files, int show_total)
 {
 	char	dst[1025];

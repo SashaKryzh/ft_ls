@@ -97,9 +97,11 @@ void				print_files_row(t_file *files);
 */
 
 
-void				get_path(char *path, char *dst);
+void				get_link_path(char *path, char *dst);
 void				show_filetype(struct stat st, char *path, char *dst);
 void				show_permission(struct stat st, char *path);
+void				show_pwgr(t_file *files);
+void				show_size(t_file *files);
 void				show_time(struct stat st);
 void				show_pwgr(t_file *files);
 

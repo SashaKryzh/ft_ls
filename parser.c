@@ -81,5 +81,4 @@ void		get_ls_arg(int ac, char *av[], t_ls_arg **args)
 			break ;
 	while (i < ac)
 		parse_args(args, av[i++]);
-	// t_print_ls_arg(*args); //
 }

@@ -17,7 +17,8 @@ CC = gcc
 
 SRCS = main.c \
 print_col_row.c \
-print_utils.c \
+print_utils_1.c \
+print_utils_2.c \
 parse_dir.c \
 parser.c \
 utils.c \
