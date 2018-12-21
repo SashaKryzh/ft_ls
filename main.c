@@ -50,6 +50,9 @@ void	print_files(t_file *files, int show_total)
 
 void	print_dirs(t_file *dirs, t_file *files)
 {
+	t_file	*start;
+
+	start = dirs;
 	if (files && dirs)
 		ft_printf("\n");
 	while (dirs)
@@ -59,6 +62,7 @@ void	print_dirs(t_file *dirs, t_file *files)
 			ft_printf("\n");
 		dirs = dirs->next;
 	}
+	free_files(start);
 }
 
 void	print_ls_arg(t_ls_arg *args)
