@@ -25,8 +25,6 @@
 # include <grp.h>
 # include <errno.h>
 
-# include <stdio.h>
-
 # define OPTS "Rartl1Uogm"
 # define USAGE "usage: ft_ls [-Rartl1Uogm] [file ...]"
 # define LS_YEAR 31536000
@@ -37,6 +35,8 @@
 # define WD_NAME ft_strlen(pw->pw_name)
 # define WD_GROUP ft_strlen(gr->gr_name)
 # define WD_SIZE ft_nbrlen(files->st.st_size, 10)
+# define WD_MAJOR ft_nbrlen(major(files->st.st_rdev), 10)
+# define WD_MINOR ft_nbrlen(minor(files->st.st_rdev), 10)
 
 typedef struct		s_flags
 {
@@ -76,6 +76,8 @@ extern int			g_lwidth;
 extern int			g_nwidth;
 extern int			g_gwidth;
 extern int			g_swidth;
+extern int			g_mawidth;
+extern int			g_miwidth;
 
 extern int			g_cnt_args;
 

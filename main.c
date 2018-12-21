@@ -18,6 +18,8 @@ int				g_lwidth;
 int				g_nwidth;
 int				g_gwidth;
 int				g_swidth;
+int				g_mawidth;
+int				g_miwidth;
 int				g_cnt_args;
 
 void	exit_func(char *msg)
