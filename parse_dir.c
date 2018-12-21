@@ -48,5 +48,5 @@ void	parse_dir(char *path, int show)
 		add_file(&files, dp->d_name, st, to_file);
 	}
 	closedir(d);
-	print_files(sort_files(files));
+	print_files(sort_files(files), 1);
 }

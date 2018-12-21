@@ -19,7 +19,6 @@ int				g_nwidth;
 int				g_gwidth;
 int				g_swidth;
 int				g_cnt_args;
-int				g_show_total;
 
 void	exit_func(char *msg)
 {
@@ -27,14 +26,14 @@ void	exit_func(char *msg)
 	exit(0);
 }
 
-void	print_files(t_file *files)
+void	print_files(t_file *files, int show_total)
 {
 	t_file *tmp;
 
 	tmp = files;
 	calc_width(files);
 	if (g_flags.one || g_flags.l)
-		print_files_col(files);
+		print_files_col(files, show_total);
 	else
 		print_files_row(files);
 	while (g_flags.rec && tmp)
@@ -42,7 +41,6 @@ void	print_files(t_file *files)
 		if (tmp->is_dir)
 		{
 			ft_printf("\n");
-			g_show_total = 1;
 			parse_dir(tmp->path, 1);
 		}
 		tmp = tmp->next;
@@ -57,7 +55,6 @@ void	print_dirs(t_file *dirs, t_file *files)
 	check = 0;
 	if (files && dirs)
 		ft_printf("\n");
-	g_show_total = 1;
 	while (dirs)
 	{
 		parse_dir(dirs->name, g_cnt_args > 1 || check);
@@ -89,7 +86,7 @@ void	print_ls_arg(t_ls_arg *args)
 		}
 		args = args->next;
 	}
-	print_files(files);
+	print_files(files, 0);
 	print_dirs(dirs, files);
 }
 

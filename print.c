@@ -12,11 +12,11 @@
 
 #include "ft_ls.h"
 
-void		print_files_col(t_file *files)
+void		print_files_col(t_file *files, int show_total)
 {
 	char	dst[1025];
 
-	if (g_show_total && files)
+	if (show_total && files)
 		ft_printf("total %d\n", g_blocks);
 	while (files)
 	{
