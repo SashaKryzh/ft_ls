@@ -69,7 +69,7 @@ void	parse_dir(char *path, int show)
 			continue ;
 		to_file = ft_build_path(path, dp->d_name);
 		if (lstat(to_file, &st) == -1)
-			exit_func("stat == -1");
+			continue ;
 		add_file(&files, dp->d_name, st, to_file);
 	}
 	closedir(d);
