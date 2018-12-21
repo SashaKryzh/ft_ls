@@ -62,3 +62,31 @@ t_file			*sort_files(t_file *files)
 	}
 	return (files);
 }
+
+t_ls_arg		*sort_args(t_ls_arg *args)
+{
+	t_ls_arg	*tmp;
+	t_ls_arg	tmp2;
+	int			swapped;
+
+	if (!args)
+		return (NULL);
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		tmp = args;
+		while (tmp->next)
+		{
+			if (ft_strcmp(tmp->arg, tmp->next->arg) > 0)
+			{
+				swapped = 1;
+				ft_memcpy(&tmp2, tmp, sizeof(t_ls_arg) - sizeof(tmp));
+				ft_memcpy(tmp, tmp->next, sizeof(t_ls_arg) - sizeof(tmp));
+				ft_memcpy(tmp->next, &tmp2, sizeof(t_ls_arg) - sizeof(tmp));
+			}
+			tmp = tmp->next;
+		}
+	}
+	return (args);
+}

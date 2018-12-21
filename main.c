@@ -73,10 +73,11 @@ void	print_ls_arg(t_ls_arg *args)
 
 	files = NULL;
 	dirs = NULL;
+	sort_args(args);
 	while (args)
 	{
 		if (lstat(args->arg, &st) == -1)
-			ft_printf("lstat in args == -1\n");
+			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
 		else
 		{
     		if (!S_ISDIR(st.st_mode))
@@ -86,8 +87,8 @@ void	print_ls_arg(t_ls_arg *args)
 		}
 		args = args->next;
 	}
-	print_files(files, 0);
-	print_dirs(dirs, files);
+	print_files(sort_files(files), 0);
+	print_dirs(sort_files(dirs), files);
 }
 
 int		main(int ac, char *av[])

@@ -103,6 +103,7 @@ void				calc_width(t_file *files);
 void				add_file(t_file **files, char *name, struct stat st, char *path);
 void				free_files(t_file *files);
 t_file				*sort_files(t_file *files);
+t_ls_arg			*sort_args(t_ls_arg *args);
 
 /*
 **	Tests
