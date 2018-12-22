@@ -30,7 +30,7 @@ static int		check_time(t_file *files)
 		return (1);
 	if (files->st.st_mtime == files->next->st.st_mtime)
 	{
-		if ((ft_strcmp(files->name, files->next->name) > 0) != g_flags.rev)
+		if ((ft_strcmp(files->name, files->next->name) > 0) == g_flags.rev)
 			return (1);
 	}
 	return (0);
