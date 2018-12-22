@@ -109,7 +109,6 @@ void				show_pwgr(t_file *files);
 **	Utils
 */
 
-void				exit_func(char *msg);
 char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
 void				add_file(t_file **files, char *name,

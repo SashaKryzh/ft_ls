@@ -22,12 +22,6 @@ int				g_mawidth;
 int				g_miwidth;
 int				g_cnt_args;
 
-void	exit_func(char *msg)
-{
-	ft_printf("ft_ls: %s\n", msg);
-	exit(0);
-}
-
 void	print_files(t_file *files, int show_total)
 {
 	t_file *tmp;
