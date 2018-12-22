@@ -83,7 +83,7 @@ void	print_ls_arg(t_ls_arg *args)
 		else
 		{
 			if (!S_ISDIR(st.st_mode))
-				add_file(&files, args->arg, st, NULL);
+				add_file(&files, args->arg, st, args->arg);
 			else
 				add_file(&dirs, args->arg, st, args->arg);
 		}
@@ -102,6 +102,6 @@ int		main(int ac, char *av[])
 		print_ls_arg(args);
 	else
 		parse_dir(".", 0);
-	system("leaks ft_ls"); //
+	// system("leaks ft_ls"); //
 	return (0);
 }
