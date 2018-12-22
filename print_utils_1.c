@@ -50,14 +50,32 @@ void		show_other_permission(struct stat st, char *path)
 		ft_printf(" ");
 }
 
+void		show_third(struct stat st, int owner)
+{
+	if (owner)
+	{
+		if (st.st_mode & S_ISUID)
+			ft_printf((st.st_mode & S_IXUSR) ? "s" : "S");
+		else
+			ft_printf((st.st_mode & S_IXUSR) ? "x" : "-");
+	}
+	else
+	{
+		if (st.st_mode & S_ISGID)
+			ft_printf((st.st_mode & S_IXGRP) ? "s" : "S");
+		else
+			ft_printf((st.st_mode & S_IXGRP) ? "x" : "-");
+	}
+}
+
 void		show_permission(struct stat st, char *path)
 {
 	ft_printf((st.st_mode & S_IRUSR) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWUSR) ? "w" : "-");
-	ft_printf((st.st_mode & S_IXUSR) ? "x" : "-");
+	show_third(st, 1);
 	ft_printf((st.st_mode & S_IRGRP) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWGRP) ? "w" : "-");
-	ft_printf((st.st_mode & S_IXGRP) ? "x" : "-");
+	show_third(st, 0);
 	ft_printf((st.st_mode & S_IROTH) ? "r" : "-");
 	ft_printf((st.st_mode & S_IWOTH) ? "w" : "-");
 	show_other_permission(st, path);
@@ -76,15 +94,4 @@ void		show_size(t_file *files)
 	else
 		ft_printf("%*d", check ? check + 4 : g_swidth + 1, files->st.st_size);
 	check = !files->next ? 0 : check;
-}
-
-void		show_time(struct stat st)
-{
-	char	*tm;
-
-	tm = ctime(&(st.st_mtime));
-	if (time(NULL) - st.st_mtime < LS_YEAR / 2)
-		ft_printf(" %.12s ", &tm[4]);
-	else
-		ft_printf(" %.6s %5.4s ", &tm[4], &tm[20]);
 }

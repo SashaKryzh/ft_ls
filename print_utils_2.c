@@ -12,6 +12,17 @@
 
 #include "ft_ls.h"
 
+void		show_time(struct stat st)
+{
+	char	*tm;
+
+	tm = ctime(&(st.st_mtime));
+	if (time(NULL) - st.st_mtime < LS_YEAR / 2)
+		ft_printf(" %.12s ", &tm[4]);
+	else
+		ft_printf(" %.6s %5.4s ", &tm[4], &tm[20]);
+}
+
 void		show_pwgr(t_file *files)
 {
 	if (!g_flags.g)
