@@ -36,25 +36,31 @@ LIBFT = $(LIB_DIR)/libft.a
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT)
+$(NAME): $(OBJS_DIR) $(OBJS) $(LIBFT)
 	$(CC) -o $(NAME) $(OBJS) $(LIB) -I $(LIB_HEAD)
 
-$(OBJS_DIR)/%.o: %.c $(OBJS_DIR) $(LIB_HEAD)/*.h *.h
+$(OBJS_DIR)/%.o: %.c $(LIB_HEAD)/*.h *.h
 	$(CC) -o $@ -c $< -I $(LIB_HEAD)
 
 $(OBJS_DIR):
 	@mkdir objs
-	@echo "objs dir created" 
 
 $(LIBFT):
 	$(MAKE) -C $(LIB_DIR)
 
 clean:
 	@rm -rf $(OBJS_DIR)
-	@echo "objs directory deleted"
+
+cleanlib:
+	@$(MAKE) clean -C $(LIB_DIR)
 
 fclean: clean
 	@rm -rf $(NAME)
-	@echo "executable deleted"
 
-re: fclean all
+fcleanlib:
+	@$(MAKE) fclean -C $(LIB_DIR)
+
+re: relib fclean all
+
+relib:
+	@$(MAKE) re -C $(LIB_DIR)
