@@ -12,11 +12,11 @@
 
 #include "ft_ls.h"
 
-void		print_files_col(t_file *files)
+void		print_files_col(t_file *files, int show_total)
 {
 	char	dst[1025];
 
-	if (g_show_total && files)
+	if (show_total && files)
 		ft_printf("total %d\n", g_blocks);
 	while (files)
 	{
@@ -24,11 +24,10 @@ void		print_files_col(t_file *files)
 		if (g_flags.l)
 		{
 			show_filetype(files->st, files->name, (char *)&dst);
-			show_permission(files->st);
+			show_permission(files->st, files->path);
 			ft_printf("%*d ", g_lwidth + 1, files->st.st_nlink);
-			ft_printf("%-*s %*s", g_nwidth, files->pw_name, g_gwidth + 1,
-				files->gr_name);
-			ft_printf(" %*d", g_swidth + 1, files->st.st_size);
+			show_pwgr(files);
+			show_size(files);
 			show_time(files->st);
 		}
 		ft_printf("%s%s\n", files->name, dst);
@@ -36,10 +35,26 @@ void		print_files_col(t_file *files)
 	}
 }
 
+void		print_comma(t_file *files)
+{
+	while (files)
+	{
+		ft_printf("%s", files->name);
+		if ((files = files->next))
+			ft_printf(", ");
+	}
+	ft_printf("\n");
+}
+
 void		print_files_row(t_file *files)
 {
 	if (!files)
 		return ;
+	if (g_flags.m)
+	{
+		print_comma(files);
+		return ;
+	}
 	while (files->next)
 	{
 		ft_printf("%s\t", files->name);

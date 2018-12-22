@@ -23,16 +23,28 @@ char	*ft_build_path(char *path, char *file_name)
 	return (to_file);
 }
 
+void	get_link_path(char *path, char *dst)
+{
+	ssize_t	ret;
+
+	ft_strcpy(dst, " -> ");
+	if ((ret = readlink(path, &dst[4], 1025)) == -1)
+		dst[0] = '\0';
+	dst[ret + 4] = '\0';
+}
+
 void	calc_width(t_file *files)
 {
-	struct passwd *pw;
-	struct group  *gr;
+	struct passwd	*pw;
+	struct group	*gr;
 
 	g_blocks = 0;
 	g_lwidth = 0;
 	g_nwidth = 0;
 	g_gwidth = 0;
 	g_swidth = 0;
+	g_mawidth = 0;
+	g_miwidth = 0;
 	while (files)
 	{
 		pw = getpwuid(files->st.st_uid);
@@ -41,6 +53,8 @@ void	calc_width(t_file *files)
 		g_nwidth = WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
 		g_gwidth = WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
 		g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
+		g_mawidth = WD_MAJOR > g_mawidth ? WD_MAJOR : g_mawidth;
+		g_miwidth = WD_MINOR > g_miwidth ? WD_MINOR : g_miwidth;
 		files->pw_name = ft_strdup(pw->pw_name);
 		files->gr_name = ft_strdup(gr->gr_name);
 		g_blocks += files->st.st_blocks;

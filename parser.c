@@ -15,8 +15,22 @@
 static void	illegal_option(char opt)
 {
 	ft_printf("ft_ls: illegal option -- %c\n", opt);
-	ft_printf("%s\n", USAGE);
+	ft_printf("%s\n", LS_USAGE);
 	exit(0);
+}
+
+static void	parse_flags_2(char opt)
+{
+	if (opt == 'U')
+		g_flags.no_sort = 1;
+	if (opt == 'o')
+		g_flags.o = 1;
+	if (opt == 'g')
+		g_flags.g = 1;
+	if (opt == 'm')
+		g_flags.m = 1;
+	if (opt == 'S')
+		g_flags.s_sort = 1;
 }
 
 int			parse_flags(char *s)
@@ -28,7 +42,7 @@ int			parse_flags(char *s)
 	i = 0;
 	while (s[++i])
 	{
-		if (!ft_contains(OPTS, s[i]))
+		if (!ft_contains(LS_OPTS, s[i]))
 			illegal_option(s[i]);
 		if (s[i] == 'R')
 			g_flags.rec = 1;
@@ -42,6 +56,7 @@ int			parse_flags(char *s)
 			g_flags.l = 1;
 		if (s[i] == '1')
 			g_flags.one = 1;
+		parse_flags_2(s[i]);
 	}
 	return (1);
 }
@@ -68,5 +83,4 @@ void		get_ls_arg(int ac, char *av[], t_ls_arg **args)
 			break ;
 	while (i < ac)
 		parse_args(args, av[i++]);
-	// t_print_ls_arg(*args); //
 }

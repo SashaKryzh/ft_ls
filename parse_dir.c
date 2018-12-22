@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-void	add_file(t_file **files, char *name, struct stat st, char *path)
+t_file	*creat_file(char *name, struct stat st, char *path)
 {
 	t_file	*new;
 
@@ -21,8 +21,30 @@ void	add_file(t_file **files, char *name, struct stat st, char *path)
 	new->is_dir = S_ISDIR(st.st_mode) && !(IS_DOT) ? 1 : 0;
 	new->st = st;
 	new->path = path;
-	new->next = *files;
-	*files = new;
+	return (new);
+}
+
+void	add_file(t_file **files, char *name, struct stat st, char *path)
+{
+	t_file	*tmp;
+
+	if (!*files)
+		*files = creat_file(name, st, path);
+	else
+	{
+		tmp = *files;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = creat_file(name, st, path);
+	}
+}
+
+void	check_d_error(char *path)
+{
+	if (ft_strequ(path, "/dev/fd/3"))
+		ft_printf("ft_ls: 3: Not a directory\n");
+	else
+		ft_printf("ft_ls: %s: Permission dinied\n", ft_strrchr(path, '/') + 1);
 }
 
 void	parse_dir(char *path, int show)
@@ -35,7 +57,10 @@ void	parse_dir(char *path, int show)
 
 	files = NULL;
 	if (!(d = opendir(path)))
-		exit_func("d == 0");
+	{
+		check_d_error(path);
+		return ;
+	}
 	if (show)
 		ft_printf("%s:\n", path);
 	while ((dp = readdir(d)))
@@ -44,9 +69,9 @@ void	parse_dir(char *path, int show)
 			continue ;
 		to_file = ft_build_path(path, dp->d_name);
 		if (lstat(to_file, &st) == -1)
-			exit_func("stat == -1");
+			continue ;
 		add_file(&files, dp->d_name, st, to_file);
 	}
 	closedir(d);
-	print_files(sort_files(files));
+	print_files(sort_files(files), g_flags.l);
 }
