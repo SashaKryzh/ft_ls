@@ -23,7 +23,7 @@ void		print_files_col(t_file *files, int show_total)
 		dst[0] = '\0';
 		if (g_flags.l)
 		{
-			show_filetype(files->st, files->name, (char *)&dst);
+			show_filetype(files->st, files->path, (char *)&dst);
 			show_permission(files->st, files->path);
 			ft_printf("%*d ", g_lwidth + 1, files->st.st_nlink);
 			show_pwgr(files);

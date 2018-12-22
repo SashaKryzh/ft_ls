@@ -28,7 +28,7 @@ void	get_link_path(char *path, char *dst)
 	ssize_t	ret;
 
 	ft_strcpy(dst, " -> ");
-	if ((ret = readlink(path, &dst[4], 1025)) == -1)
+	if ((ret = readlink(path, &dst[4], 1021)) == -1)
 		dst[0] = '\0';
 	dst[ret + 4] = '\0';
 }
