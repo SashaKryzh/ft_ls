@@ -22,8 +22,7 @@ print_utils_2.c \
 parse_dir.c \
 parser.c \
 utils.c \
-sort_files.c \
-tests.c
+sort_files.c
 
 OBJS_DIR = ./objs
 OBJS = $(addprefix $(OBJS_DIR)/,$(SRCS:.c=.o))

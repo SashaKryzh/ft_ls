@@ -117,12 +117,4 @@ void				free_files(t_file *files);
 t_file				*sort_files(t_file *files);
 t_ls_arg			*sort_args(t_ls_arg *args);
 
-/*
-**	Tests
-*/
-
-void				t_print_flags(void);
-void				t_print_ls_arg(t_ls_arg *args);
-void				t_print_files(t_file *files);
-
 #endif
