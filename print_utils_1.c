@@ -38,47 +38,30 @@ void		show_filetype(struct stat st, char *path, char *dst)
 	ft_printf("%c", c);
 }
 
-void		show_other_permission(struct stat st, char *path)
-{
-	if (st.st_mode & S_ISVTX)
-		ft_printf((st.st_mode & S_IXOTH) ? "t" : "T");
-	else
-		ft_printf((st.st_mode & S_IXOTH) ? "x" : "-");
-	if (listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0)
-		ft_printf("@");
-	else
-		ft_printf(" ");
-}
-
-void		show_third(struct stat st, int owner)
-{
-	if (owner)
-	{
-		if (st.st_mode & S_ISUID)
-			ft_printf((st.st_mode & S_IXUSR) ? "s" : "S");
-		else
-			ft_printf((st.st_mode & S_IXUSR) ? "x" : "-");
-	}
-	else
-	{
-		if (st.st_mode & S_ISGID)
-			ft_printf((st.st_mode & S_IXGRP) ? "s" : "S");
-		else
-			ft_printf((st.st_mode & S_IXGRP) ? "x" : "-");
-	}
-}
-
 void		show_permission(struct stat st, char *path)
 {
-	ft_printf((st.st_mode & S_IRUSR) ? "r" : "-");
-	ft_printf((st.st_mode & S_IWUSR) ? "w" : "-");
-	show_third(st, 1);
-	ft_printf((st.st_mode & S_IRGRP) ? "r" : "-");
-	ft_printf((st.st_mode & S_IWGRP) ? "w" : "-");
-	show_third(st, 0);
-	ft_printf((st.st_mode & S_IROTH) ? "r" : "-");
-	ft_printf((st.st_mode & S_IWOTH) ? "w" : "-");
-	show_other_permission(st, path);
+	char	perm[10];
+
+	perm[0] = st.st_mode & S_IRUSR ? 'r' : '-';
+	perm[1] = st.st_mode & S_IWUSR ? 'w' : '-';
+	if (st.st_mode & S_ISUID)
+		perm[2] = st.st_mode & S_IXUSR ? 's' : 'S';
+	else
+		perm[2] = st.st_mode & S_IXUSR ? 'x' : '-';
+	perm[3] = st.st_mode & S_IRGRP ? 'r' : '-';
+	perm[4] = st.st_mode & S_IWGRP ? 'w' : '-';
+	if (st.st_mode & S_ISGID)
+		perm[5] = st.st_mode & S_IXGRP ? 's' : 'S';
+	else
+		perm[5] = st.st_mode & S_IXGRP ? 'x' : '-';
+	perm[6] = st.st_mode & S_IROTH ? 'r' : '-';
+	perm[7] = st.st_mode & S_IWOTH ? 'w' : '-';
+	if (st.st_mode & S_ISVTX)
+		perm[8] = st.st_mode & S_IXOTH ? 't' : 'T';
+	else
+		perm[8] = st.st_mode & S_IXOTH ? 'x' : '-';
+	perm[9] = listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0 ? '@' : ' ';
+	write(1, perm, 10);
 }
 
 void		show_size(t_file *files)
