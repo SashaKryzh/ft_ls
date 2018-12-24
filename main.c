@@ -72,7 +72,9 @@ void	print_ls_arg(t_ls_arg *args)
 	sort_args(args);
 	while (args)
 	{
-		if (lstat(args->arg, &st) == -1)
+		if (g_flags.l && lstat(args->arg, &st) == -1)
+			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
+		else if (!g_flags.l && stat(args->arg, &st) == -1)
 			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
 		else
 		{

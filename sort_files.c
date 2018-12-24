@@ -26,11 +26,11 @@ static int		check_time(t_file *files)
 {
 	if (!g_flags.rev && files->st.st_mtime < files->next->st.st_mtime)
 		return (1);
-	if (g_flags.rev && files->st.st_mtime > files->next->st.st_mtime)
+	else if (g_flags.rev && files->st.st_mtime > files->next->st.st_mtime)
 		return (1);
-	if (files->st.st_mtime == files->next->st.st_mtime)
+	else if (files->st.st_mtime == files->next->st.st_mtime)
 	{
-		if ((ft_strcmp(files->name, files->next->name) > 0) == g_flags.rev)
+		if ((ft_strcmp(files->name, files->next->name) > 0) != g_flags.rev)
 			return (1);
 	}
 	return (0);
@@ -40,9 +40,9 @@ static int		check_size(t_file *files)
 {
 	if (!g_flags.rev && files->st.st_size < files->next->st.st_size)
 		return (1);
-	if (g_flags.rev && files->st.st_size > files->next->st.st_size)
+	else if (g_flags.rev && files->st.st_size > files->next->st.st_size)
 		return (1);
-	if (files->st.st_size == files->next->st.st_size)
+	else if (files->st.st_size == files->next->st.st_size)
 	{
 		if ((ft_strcmp(files->name, files->next->name) > 0) != g_flags.rev)
 			return (1);
