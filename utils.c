@@ -50,8 +50,8 @@ void	calc_width(t_file *files)
 		pw = getpwuid(files->st.st_uid);
 		gr = getgrgid(files->st.st_gid);
 		g_lwidth = WD_NLINK > g_lwidth ? WD_NLINK : g_lwidth;
-		g_nwidth = WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
-		g_gwidth = WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
+		g_nwidth = (int)WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
+		g_gwidth = (int)WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
 		g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
 		g_mawidth = WD_MAJOR > g_mawidth ? WD_MAJOR : g_mawidth;
 		g_miwidth = WD_MINOR > g_miwidth ? WD_MINOR : g_miwidth;

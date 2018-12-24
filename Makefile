@@ -13,7 +13,7 @@
 NAME = ft_ls
 
 FLAGS = -Wall -Werror -Wextra
-CC = gcc
+CC = gcc $(FLAGS)
 
 SRCS = main.c \
 print_col_row.c \
