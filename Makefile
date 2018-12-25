@@ -20,6 +20,7 @@ print_col_row.c \
 print_utils_1.c \
 print_utils_2.c \
 parse_dir.c \
+add_file.c \
 parser.c \
 utils.c \
 sort_files.c
