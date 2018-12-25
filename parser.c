@@ -61,17 +61,6 @@ int			parse_flags(char *s)
 	return (1);
 }
 
-// void		parse_args(t_ls_arg **args, char *s)
-// {
-// 	t_ls_arg	*new;
-
-// 	new = (t_ls_arg *)ft_memalloc(sizeof(t_ls_arg));
-// 	new->arg = ft_strdup(s);
-// 	new->next = *args;
-// 	*args = new;
-// 	g_cnt_args += 1;
-// }
-
 t_file		*create_arg(char *arg)
 {
 	t_file	*new;

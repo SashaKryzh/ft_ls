@@ -33,11 +33,8 @@ void	get_link_path(char *path, char *dst)
 	dst[ret + 4] = '\0';
 }
 
-void	calc_width(t_file *files)
+void	init_globals(void)
 {
-	struct passwd	*pw;
-	struct group	*gr;
-
 	g_blocks = 0;
 	g_lwidth = 0;
 	g_nwidth = 0;
@@ -45,21 +42,27 @@ void	calc_width(t_file *files)
 	g_swidth = 0;
 	g_mawidth = 0;
 	g_miwidth = 0;
-	while (files)
+}
+
+void	calc_width(t_file *files)
+{
+	struct passwd	*pw;
+	struct group	*gr;
+
+	pw = getpwuid(files->st.st_uid);
+	gr = getgrgid(files->st.st_gid);
+	g_lwidth = WD_NLINK > g_lwidth ? WD_NLINK : g_lwidth;
+	g_nwidth = (int)WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
+	g_gwidth = (int)WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
+	g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
+	if (S_ISCHR(files->st.st_mode) || S_ISBLK(files->st.st_mode))
 	{
-		pw = getpwuid(files->st.st_uid);
-		gr = getgrgid(files->st.st_gid);
-		g_lwidth = WD_NLINK > g_lwidth ? WD_NLINK : g_lwidth;
-		g_nwidth = (int)WD_NAME > g_nwidth ? WD_NAME : g_nwidth;
-		g_gwidth = (int)WD_GROUP > g_gwidth ? WD_GROUP : g_gwidth;
-		g_swidth = WD_SIZE > g_swidth ? WD_SIZE : g_swidth;
 		g_mawidth = WD_MAJOR > g_mawidth ? WD_MAJOR : g_mawidth;
 		g_miwidth = WD_MINOR > g_miwidth ? WD_MINOR : g_miwidth;
-		files->pw_name = ft_strdup(pw->pw_name);
-		files->gr_name = ft_strdup(gr->gr_name);
-		g_blocks += files->st.st_blocks;
-		files = files->next;
 	}
+	files->pw_name = ft_strdup(pw->pw_name);
+	files->gr_name = ft_strdup(gr->gr_name);
+	g_blocks += files->st.st_blocks;
 }
 
 void	free_files(t_file *files)

@@ -27,8 +27,9 @@
 
 # define LS_OPTS "Rartl1UogmS"
 # define LS_USAGE "usage: ft_ls [-Rartl1UogmS] [file ...]"
-# define LS_YEAR 31536000
+# define LS_HALF_YEAR 15768000
 
+# define CREATE_ARG create_file(args->name, st, args->name)
 # define IS_DOT ft_strequ(name, ".") || ft_strequ(name, "..")
 
 # define WD_NLINK ft_nbrlen(files->st.st_nlink, 10)
@@ -78,12 +79,16 @@ extern int			g_cnt_args;
 void				get_ls_arg(int ac, char *av[], t_file **args);
 void				parse_dir(char *path, int show);
 
+void				add_file(t_file **files, t_file *new, int (*f)());
+t_file				*create_file(char *name, struct stat st, char *path);
+
+/*
+**	Check stat
+*/
+
 int					check_name(t_file *files, t_file *new);
 int					check_time(t_file *files, t_file *new);
 int					check_size(t_file *files, t_file *new);
-
-void				add_file(t_file **files, t_file *new, int (*f)());
-t_file				*create_file(char *name, struct stat st, char *path);
 
 /*
 **	Print
@@ -109,8 +114,8 @@ void				show_pwgr(t_file *files);
 */
 
 char				*ft_build_path(char *path, char *file_name);
+void				init_globals(void);
 void				calc_width(t_file *files);
 void				free_files(t_file *files);
-t_file				*sort_files(t_file *files);
 
 #endif

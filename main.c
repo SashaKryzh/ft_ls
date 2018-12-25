@@ -27,11 +27,11 @@ void	print_files(t_file *files, int show_total)
 	t_file *tmp;
 
 	tmp = files;
-	calc_width(files);
 	if (g_flags.one || g_flags.l)
 		print_files_col(files, show_total);
 	else
 		print_files_row(files);
+	init_globals();
 	while (g_flags.rec && tmp)
 	{
 		if (tmp->is_dir)
@@ -78,9 +78,9 @@ void	print_ls_arg(t_file *args)
 		else
 		{
 			if (!S_ISDIR(st.st_mode))
-				add_file(&files, create_file(args->name, st, args->name), g_flags.f_sort);
+				add_file(&files, CREATE_ARG, g_flags.f_sort);
 			else
-				add_file(&dirs, create_file(args->name, st, args->name), g_flags.f_sort);
+				add_file(&dirs, CREATE_ARG, g_flags.f_sort);
 		}
 		args = args->next;
 	}

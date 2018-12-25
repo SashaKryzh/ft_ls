@@ -21,6 +21,7 @@ t_file	*create_file(char *name, struct stat st, char *path)
 	new->is_dir = S_ISDIR(st.st_mode) && !(IS_DOT) ? 1 : 0;
 	new->st = st;
 	new->path = path;
+	calc_width(new);
 	return (new);
 }
 
