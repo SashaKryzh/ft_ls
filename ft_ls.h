@@ -44,22 +44,15 @@ typedef struct		s_flags
 	unsigned char	rec:	1;
 	unsigned char	a:		1;
 	unsigned char	rev:	1;
-	unsigned char	t:		1;
 	unsigned char	l:		1;
 	unsigned char	no_sort:1;
 	unsigned char	o:		1;
 	unsigned char	g:		1;
 	unsigned char	m:		1;
-	unsigned char	s_sort:	1;
+	int				(*f_sort)();
 }					t_flags;
 
 extern t_flags		g_flags;
-
-typedef struct		s_ls_arg
-{
-	char			*arg;
-	struct s_ls_arg	*next;
-}					t_ls_arg;
 
 typedef struct		s_file
 {
@@ -82,8 +75,15 @@ extern int			g_miwidth;
 
 extern int			g_cnt_args;
 
-void				get_ls_arg(int ac, char *av[], t_ls_arg **args);
+void				get_ls_arg(int ac, char *av[], t_file **args);
 void				parse_dir(char *path, int show);
+
+int					check_name(t_file *files, t_file *new);
+int					check_time(t_file *files, t_file *new);
+int					check_size(t_file *files, t_file *new);
+
+void				add_file(t_file **files, t_file *new, int (*f)());
+t_file				*create_file(char *name, struct stat st, char *path);
 
 /*
 **	Print
@@ -98,8 +98,7 @@ void				print_files_row(t_file *files);
 */
 
 void				get_link_path(char *path, char *dst);
-void				show_filetype(struct stat st, char *path, char *dst);
-void				show_permission(struct stat st, char *path);
+void				show_permission(struct stat st, char *path, char *dst);
 void				show_pwgr(t_file *files);
 void				show_size(t_file *files);
 void				show_time(struct stat st);
@@ -111,10 +110,7 @@ void				show_pwgr(t_file *files);
 
 char				*ft_build_path(char *path, char *file_name);
 void				calc_width(t_file *files);
-void				add_file(t_file **files, char *name,
-					struct stat st, char *path);
 void				free_files(t_file *files);
 t_file				*sort_files(t_file *files);
-t_ls_arg			*sort_args(t_ls_arg *args);
 
 #endif

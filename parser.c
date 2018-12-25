@@ -30,7 +30,7 @@ static void	parse_flags_2(char opt)
 	if (opt == 'm')
 		g_flags.m = 1;
 	if (opt == 'S')
-		g_flags.s_sort = 1;
+		g_flags.f_sort = &check_size;
 }
 
 int			parse_flags(char *s)
@@ -51,7 +51,7 @@ int			parse_flags(char *s)
 		if (s[i] == 'r')
 			g_flags.rev = 1;
 		if (s[i] == 't')
-			g_flags.t = 1;
+			g_flags.f_sort = &check_time;
 		if (s[i] == 'l')
 			g_flags.l = 1;
 		if (s[i] == '1')
@@ -61,26 +61,37 @@ int			parse_flags(char *s)
 	return (1);
 }
 
-void		parse_args(t_ls_arg **args, char *s)
-{
-	t_ls_arg	*new;
+// void		parse_args(t_ls_arg **args, char *s)
+// {
+// 	t_ls_arg	*new;
 
-	new = (t_ls_arg *)ft_memalloc(sizeof(t_ls_arg));
-	new->arg = ft_strdup(s);
-	new->next = *args;
-	*args = new;
+// 	new = (t_ls_arg *)ft_memalloc(sizeof(t_ls_arg));
+// 	new->arg = ft_strdup(s);
+// 	new->next = *args;
+// 	*args = new;
+// 	g_cnt_args += 1;
+// }
+
+t_file		*create_arg(char *arg)
+{
+	t_file	*new;
+
+	new = (t_file *)ft_memalloc(sizeof(t_file));
+	new->name = ft_strdup(arg);
 	g_cnt_args += 1;
+	return (new);
 }
 
-void		get_ls_arg(int ac, char *av[], t_ls_arg **args)
+void		get_ls_arg(int ac, char *av[], t_file **args)
 {
 	int		i;
 
 	i = 0;
 	*args = NULL;
+	g_flags.f_sort = &check_name;
 	while (++i < ac && av[i][0] == '-')
 		if (!parse_flags(av[i]))
 			break ;
 	while (i < ac)
-		parse_args(args, av[i++]);
+		add_file(args, create_arg(av[i++]), &check_name);
 }

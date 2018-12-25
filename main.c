@@ -61,7 +61,7 @@ void	print_dirs(t_file *dirs, t_file *files)
 	free_files(start);
 }
 
-void	print_ls_arg(t_ls_arg *args)
+void	print_ls_arg(t_file *args)
 {
 	t_file			*files;
 	t_file			*dirs;
@@ -69,29 +69,28 @@ void	print_ls_arg(t_ls_arg *args)
 
 	files = NULL;
 	dirs = NULL;
-	sort_args(args);
 	while (args)
 	{
-		if (g_flags.l && lstat(args->arg, &st) == -1)
-			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
-		else if (!g_flags.l && stat(args->arg, &st) == -1)
-			ft_printf("ft_ls: %s: No such file or directory\n", args->arg);
+		if (g_flags.l && lstat(args->name, &st) == -1)
+			ft_printf("ft_ls: %s: No such file or directory\n", args->name);
+		else if (!g_flags.l && stat(args->name, &st) == -1)
+			ft_printf("ft_ls: %s: No such file or directory\n", args->name);
 		else
 		{
 			if (!S_ISDIR(st.st_mode))
-				add_file(&files, args->arg, st, args->arg);
+				add_file(&files, create_file(args->name, st, args->name), g_flags.f_sort);
 			else
-				add_file(&dirs, args->arg, st, args->arg);
+				add_file(&dirs, create_file(args->name, st, args->name), g_flags.f_sort);
 		}
 		args = args->next;
 	}
-	print_files(sort_files(files), 0);
-	print_dirs(sort_files(dirs), files);
+	print_files(files, 0);
+	print_dirs(dirs, files);
 }
 
 int		main(int ac, char *av[])
 {
-	t_ls_arg			*args;
+	t_file	*args;
 
 	get_ls_arg(ac, av, &args);
 	if (args)

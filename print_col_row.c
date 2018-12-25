@@ -14,7 +14,7 @@
 
 void		print_files_col(t_file *files, int show_total)
 {
-	char	dst[1025];
+	char	dst[2500];
 
 	if (show_total && files)
 		ft_printf("total %d\n", g_blocks);
@@ -23,8 +23,7 @@ void		print_files_col(t_file *files, int show_total)
 		dst[0] = '\0';
 		if (g_flags.l)
 		{
-			show_filetype(files->st, files->path, (char *)&dst);
-			show_permission(files->st, files->path);
+			show_permission(files->st, files->path, (char *)&dst);
 			ft_printf("%*d ", g_lwidth + 1, files->st.st_nlink);
 			show_pwgr(files);
 			show_size(files);

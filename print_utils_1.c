@@ -12,56 +12,54 @@
 
 #include "ft_ls.h"
 
-void		show_filetype(struct stat st, char *path, char *dst)
+char		get_filetype(struct stat st, char *path, char *dst)
 {
-	char	c;
-
 	if (S_ISREG(st.st_mode))
-		c = '-';
+		return ('-');
 	else if (S_ISDIR(st.st_mode))
-		c = 'd';
+		return ('d');
 	else if (S_ISBLK(st.st_mode))
-		c = 'b';
+		return ('b');
 	else if (S_ISCHR(st.st_mode))
-		c = 'c';
+		return ('c');
 	else if (S_ISFIFO(st.st_mode))
-		c = 'p';
+		return ('p');
 	else if (S_ISLNK(st.st_mode))
 	{
 		get_link_path(path, dst);
-		c = 'l';
+		return ('l');
 	}
 	else if (S_ISSOCK(st.st_mode))
-		c = 's';
+		return ('s');
 	else
-		c = '?';
-	ft_printf("%c", c);
+		return ('?');
 }
 
-void		show_permission(struct stat st, char *path)
+void		show_permission(struct stat st, char *path, char *dst)
 {
-	char	perm[10];
+	char	perm[11];
 
-	perm[0] = st.st_mode & S_IRUSR ? 'r' : '-';
-	perm[1] = st.st_mode & S_IWUSR ? 'w' : '-';
+	perm[0] = get_filetype(st, path, dst);
+	perm[1] = st.st_mode & S_IRUSR ? 'r' : '-';
+	perm[2] = st.st_mode & S_IWUSR ? 'w' : '-';
 	if (st.st_mode & S_ISUID)
-		perm[2] = st.st_mode & S_IXUSR ? 's' : 'S';
+		perm[3] = st.st_mode & S_IXUSR ? 's' : 'S';
 	else
-		perm[2] = st.st_mode & S_IXUSR ? 'x' : '-';
-	perm[3] = st.st_mode & S_IRGRP ? 'r' : '-';
-	perm[4] = st.st_mode & S_IWGRP ? 'w' : '-';
+		perm[3] = st.st_mode & S_IXUSR ? 'x' : '-';
+	perm[4] = st.st_mode & S_IRGRP ? 'r' : '-';
+	perm[5] = st.st_mode & S_IWGRP ? 'w' : '-';
 	if (st.st_mode & S_ISGID)
-		perm[5] = st.st_mode & S_IXGRP ? 's' : 'S';
+		perm[6] = st.st_mode & S_IXGRP ? 's' : 'S';
 	else
-		perm[5] = st.st_mode & S_IXGRP ? 'x' : '-';
-	perm[6] = st.st_mode & S_IROTH ? 'r' : '-';
-	perm[7] = st.st_mode & S_IWOTH ? 'w' : '-';
+		perm[6] = st.st_mode & S_IXGRP ? 'x' : '-';
+	perm[7] = st.st_mode & S_IROTH ? 'r' : '-';
+	perm[8] = st.st_mode & S_IWOTH ? 'w' : '-';
 	if (st.st_mode & S_ISVTX)
-		perm[8] = st.st_mode & S_IXOTH ? 't' : 'T';
+		perm[9] = st.st_mode & S_IXOTH ? 't' : 'T';
 	else
-		perm[8] = st.st_mode & S_IXOTH ? 'x' : '-';
-	perm[9] = listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0 ? '@' : ' ';
-	write(1, perm, 10);
+		perm[9] = st.st_mode & S_IXOTH ? 'x' : '-';
+	perm[10] = listxattr(path, NULL, 0, XATTR_NOFOLLOW) > 0 ? '@' : ' ';
+	write(1, perm, 11);
 }
 
 void		show_size(t_file *files)

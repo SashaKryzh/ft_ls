@@ -12,7 +12,7 @@
 
 #include "ft_ls.h"
 
-t_file	*creat_file(char *name, struct stat st, char *path)
+t_file	*create_file(char *name, struct stat st, char *path)
 {
 	t_file	*new;
 
@@ -24,18 +24,29 @@ t_file	*creat_file(char *name, struct stat st, char *path)
 	return (new);
 }
 
-void	add_file(t_file **files, char *name, struct stat st, char *path)
+void	add_file(t_file **files, t_file *new, int (*f)())
 {
 	t_file	*tmp;
 
-	if (!*files)
-		*files = creat_file(name, st, path);
+	if ((*f) && (*f)(*files, new))
+	{
+		new->next = *files;
+		*files = new;
+	}
 	else
 	{
 		tmp = *files;
 		while (tmp->next)
+		{
+			if ((*f) && (*f)(tmp->next, new))
+			{
+				new->next = tmp->next;
+				tmp->next = new;
+				return ;
+			}
 			tmp = tmp->next;
-		tmp->next = creat_file(name, st, path);
+		}
+		tmp->next = new;
 	}
 }
 
@@ -70,8 +81,8 @@ void	parse_dir(char *path, int show)
 		to_file = ft_build_path(path, dp->d_name);
 		if (lstat(to_file, &st) == -1)
 			continue ;
-		add_file(&files, dp->d_name, st, to_file);
+		add_file(&files, create_file(dp->d_name, st, to_file), g_flags.f_sort);
 	}
 	closedir(d);
-	print_files(sort_files(files), g_flags.l);
+	print_files(files, g_flags.l);
 }
