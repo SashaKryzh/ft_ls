@@ -29,13 +29,13 @@ void	parse_dir(char *path, int show)
 	char			*to_file;
 
 	files = NULL;
+	if (show)
+		ft_printf("%s:\n", path);
 	if (!(d = opendir(path)))
 	{
 		check_d_error(path);
 		return ;
 	}
-	if (show)
-		ft_printf("%s:\n", path);
 	while ((dp = readdir(d)))
 	{
 		if (dp->d_name[0] == '.' && !g_flags.a)

@@ -51,7 +51,8 @@ int			parse_flags(char *s)
 		if (s[i] == 'r')
 			g_flags.rev = 1;
 		if (s[i] == 't')
-			g_flags.f_sort = &check_time;
+			g_flags.f_sort = g_flags.f_sort != &check_size ?
+				&check_time : g_flags.f_sort;
 		if (s[i] == 'l')
 			g_flags.l = 1;
 		if (s[i] == '1')

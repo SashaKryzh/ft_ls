@@ -61,7 +61,7 @@ void	print_dirs(t_file *dirs, t_file *files)
 	free_files(start);
 }
 
-void	print_ls_arg(t_file *args)
+void	print_arg(t_file *args)
 {
 	t_file			*files;
 	t_file			*dirs;
@@ -94,7 +94,7 @@ int		main(int ac, char *av[])
 
 	get_ls_arg(ac, av, &args);
 	if (args)
-		print_ls_arg(args);
+		print_arg(args);
 	else
 		parse_dir(".", 0);
 	return (0);
